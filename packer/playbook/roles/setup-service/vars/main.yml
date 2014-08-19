@@ -1,0 +1,5 @@
+svdir: "/etc/sv/{{ name }}"
+envdir: "{{ svdir }}/env"
+svlogdir: "{{ svdir }}/log"
+logdir: "/var/log/{{ name }}"
+service_dir: "/etc/service"

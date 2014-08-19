@@ -1,0 +1,10 @@
+---
+
+- name: Install runit
+  apt: name=runit state=present
+
+- name: Runsvdir service
+  service: name=runsvdir state=started
+
+- name: Install handy runit script
+  copy: src=runit-service dest=/usr/local/bin/runit-service owner=root group=root mode=755

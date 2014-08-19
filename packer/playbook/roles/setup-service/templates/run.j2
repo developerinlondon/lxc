@@ -1,0 +1,16 @@
+#!/bin/sh
+exec 2>&1
+
+{% for service in dependencies|default([]) %}
+sv start {{ service }} || exit 1
+{% endfor %}
+
+exec chpst -e {{envdir}} \
+  docker run \
+    --name {{ name }} \
+    --i \
+    --rm \
+    -e $(printf "%s\n" $(ls {{ envdir }}) | sed "s/^/-e/" | xargs)  \
+    {{ options|join(' ') }} \
+    {{ image }} \
+    {{ command|default('') }}

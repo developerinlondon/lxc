@@ -1,0 +1,45 @@
+---
+- name: "Install unzip"
+  apt: pkg=unzip state=installed update-cache=yes
+
+- name: Download serf.
+  command: wget -O serf.zip {{ serf_url }} chdir=/tmp
+
+- name: Unzip serf.
+  command: unzip serf.zip chdir=/tmp
+
+- name: Moves serf to path.
+  command: mv serf /usr/local/bin/serf chdir=/tmp
+
+- name: Create config directory.
+  file: state=directory path=/etc/serf/
+
+- name: Install Serf Upstart script.
+  copy:
+    src: serf.conf
+    dest: /etc/init/serf.conf
+    owner: root
+    group: root
+    mode: 644
+
+- name: Install Serf defaults.
+  copy:
+    src: serf.default
+    dest: /etc/default/serf
+    owner: root
+    group: root
+    mode: 644
+
+- name: Install Serf logrotate.
+  copy:
+    src: serf.logrotate
+    dest: /etc/logrotate.d/serf
+    owner: root
+    group: root
+    mode: 644
+
+- name: Enable Serf startup.
+  service: name=serf enabled=yes
+
+- name: Make sure it's running.
+  service: name=serf state=started

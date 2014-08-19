@@ -1,0 +1,50 @@
+# Configuration for /usr/bin/octo and octohost.
+
+# These may only be set correctly through /home/git/receiver.
+SRC_DIR="/home/git/src"
+REPO_PATH="$SRC_DIR/$REPOSITORY"
+DOCKERFILE="$REPO_PATH/Dockerfile"
+
+PUBLIC_IP=$(curl -s http://ipv4.icanhazip.com)
+PRIVATE_IP=$(curl -s http://169.254.169.254/latest/meta-data/local-ipv4)
+
+DOMAIN_SUFFIX="$PUBLIC_IP.xip.io"
+XIP_IO="$PUBLIC_IP.xip.io"
+
+BUILD_ORG_NAME="octoprod"
+
+ETCD_SERVER="0.0.0.0:4001"
+
+TENTACLES_IMAGE="octohost/tentacles"
+TENTACLES_PORT="82"
+TENTACLES_ADDR="http://127.0.0.1:$TENTACLES_PORT"
+
+REDIS_SERVER="$PRIVATE_IP:6379"
+TENTACLES="docker run -d -e REDIS_URL=redis://$REDIS_SERVER -p $TENTACLES_PORT:5000 $TENTACLES_IMAGE"
+
+# Where you are telling tentacles to direct HTTP traffic.
+# Most of the time, this should be 127.0.0.1. When you have multiple
+# octohost servers that work as a cluster, then this should be a
+# different value.
+ENDPONT_ADDR="127.0.0.1"
+
+EMAIL_NOTIFICATION="sysadmin@example.com"
+
+OCTO_BIN="https://raw.githubusercontent.com/octohost/octohost/master/bin/octo"
+
+LOGSPOUT_IMAGE="progrium/logspout"
+#LOGSPOUT_TARGET=""
+LOGSPOUT="docker run -p 8000:8000 -d -v=/var/run/docker.sock:/tmp/docker.sock $LOGSPOUT_IMAGE $LOGSPOUT_TARGET"
+
+REMOTE_SYSLOG_IMAGE="octohost/remote_syslog"
+#REMOTE_SYSLOG_PORT=""
+#REMOTE_SYSLOG_DESTINATION=""
+REMOTE_SYSLOG_COMMAND="$REMOTE_SYSLOG_IMAGE -p $REMOTE_SYSLOG_PORT -d $REMOTE_SYSLOG_DESTINATION"
+
+OCTOLOGS_IMAGE="octohost/octologs"
+OCTOLOGS_FILES="-v=/etc/log_files.yml:/log_files.yml -v=/var/log/nginx/access.log:/access.log -v=/var/log/nginx/error.log:/error.log -v=/var/log/upstart/docker.log:/docker.log"
+OCTOLOGS="docker run -d $OCTOLOGS_FILES $OCTOLOGS_IMAGE -p $REMOTE_SYSLOG_PORT -d $REMOTE_SYSLOG_DESTINATION -c /log_files.yml"
+
+CONSUL_SERVER="0.0.0.0:8500"
+
+#PRIVATE_REGISTRY=""

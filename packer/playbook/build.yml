@@ -1,0 +1,12 @@
+- hosts: all
+  sudo: yes
+  roles:
+    - common
+    - lxc
+    - runit
+ #   - docker
+    # - redis
+    # - nodejs
+    # - hipache
+    # - serf
+    # - gitreceive

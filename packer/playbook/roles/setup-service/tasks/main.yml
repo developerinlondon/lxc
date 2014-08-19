@@ -1,0 +1,32 @@
+- name: Pull image
+  shell: docker pull {{ image }}
+
+- name: Create env dirs
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 775
+    owner: root
+    group: root
+  with_items:
+    - "{{ svdir }}"
+    - "{{ envdir }}"
+    - "{{ svlogdir }}"
+    - "{{ logdir }}"
+    - "{{ service_dir }}"
+
+- name: Create run file
+  template:
+    src: run.j2
+    dest: "{{ svdir }}/run"
+    owner: root
+    group: root
+    mode: 774
+
+- name: Create logrun file
+  template:
+    src: run.j2
+    dest: "{{ svlogdir }}/run"
+    owner: root
+    group: root
+    mode: 774

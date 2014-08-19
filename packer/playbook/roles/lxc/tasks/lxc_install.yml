@@ -1,0 +1,26 @@
+---
+
+# Install LXC
+- name: install packages
+  apt: name={{ item }} state=present force=yes
+  tags: lxc
+  with_items:
+    - lxc
+    - bridge-utils
+    - debootstrap
+    - git
+    - git-core
+    - dnsmasq
+    - dnsmasq-utils
+
+# copy lxc web panel installation script
+- name: Install lxc web panel install script
+  action: template src=../files/install-lwp.sh  dest=/etc/install-lwp.sh
+
+- name: Set the permissions.
+  file: path=/etc/sinstall-lwp.sh owner=root group=root mode=0755
+
+# install lwp
+- name: install lwp web panel
+  command: /etc/install-lwp.sh
+

@@ -1,0 +1,24 @@
+---
+
+- name: Add Docker repository key
+  apt_key: url="https://get.docker.io/gpg" id="A88D21E9"
+
+- name: Add Docker repository
+  apt_repository:
+    repo: 'deb http://get.docker.io/ubuntu docker main'
+    update_cache: yes
+
+- name: Install Docker
+  apt: pkg=lxc-docker
+
+- name: Make sure it's running.
+  service: name=docker state=started
+
+- name: Remove the existing configuration file.
+  command: rm -f /etc/init/docker.conf
+
+- name: Install the configuration file.
+  copy: src=docker.conf dest=/etc/init/docker.conf owner=root group=root mode=644
+
+- name: Restart docker.
+  service: name=docker state=restarted

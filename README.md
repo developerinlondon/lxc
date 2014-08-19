@@ -15,7 +15,14 @@ snapshotting - https://www.stgraber.org/2013/12/27/lxc-1-0-container-storage/
 configuring nat - http://wernerstrydom.com/2013/02/23/configure-ubuntu-server-12-04-to-do-nat/
 
 
-iptables:
+iptables howto:
 deleting rule: sudo iptables -t nat -D lxc-nat 1
 adding rule: sudo iptables -t nat -A lxc-nat -d 172.31.23.17 -p tcp --dport 40000 -j DNAT --to 10.0.3.95:80
 
+
+IPTABLES ISSUE:
+
+https://gist.github.com/developerinlondon/36ecd1cf9be0b994f098
+
+iptables -A POSTROUTING -d 10.0.3.95/32 -p tcp -m tcp --dport 80 -j MASQUERADE -t nat
+iptables -A PREROUTING -d 172.31.23.17/32 -p tcp -m tcp --dport 40000 -j DNAT --to-destination 10.0.3.95:80 -t nat

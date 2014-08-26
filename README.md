@@ -21,7 +21,7 @@ iptables howto:
 
 - deleting rule: `sudo iptables -t nat -D lxc-nat 1`
 - adding rule: `sudo iptables -t nat -A lxc-nat -d 172.31.23.17 -p tcp --dport 40000 -j DNAT --to 10.0.3.95:80`
-
+- configuring firejail: https://www.digitalocean.com/community/tutorials/how-to-use-firejail-to-set-up-a-wordpress-installation-in-a-jailed-environment
 
 IPTABLES ISSUE:
 

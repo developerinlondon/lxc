@@ -1,0 +1,27 @@
+{
+  "builders": [
+    {
+      "type": "amazon-ebs",
+      "region": "us-east-1",
+      "source_ami": "ami-8827efe0",
+      "instance_type": "r3.large",
+      "ssh_username": "ubuntu",
+      "ami_name": "lxc-cluster-unit-{{timestamp}}"
+    }
+  ],
+
+  "provisioners": [
+    {
+      "type": "ansible-local",
+      "playbook_file": "playbook/build.yml",
+      "playbook_dir": "playbook"
+    }
+  ],
+
+  "post-processors": [
+    {
+      "type": "vagrant",
+      "output": "lxc-cluster-unit.box"
+    }
+  ]
+}

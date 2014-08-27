@@ -1,0 +1,29 @@
+---
+- name: Add lwp package key
+  apt_key:
+    url: http://claudyus.github.io/LXC-Web-Panel/claudyus.gpg.key
+    state: present
+
+- name: Add lwp to sources
+  copy:
+    dest: /etc/apt/sources.list.d/lwp.list
+    content: deb http://claudyus.github.io/LXC-Web-Panel/ ./
+    owner: root
+    group: root
+    mode: 644
+
+- name: Install lwp package
+  apt:
+    name: lwp
+    state: present
+    update_cache: yes
+    force: yes
+
+- name: Copy configuration
+  template:
+    src: lwp.conf.j2
+    dest: /etc/lwp/lwp.conf
+    owner: root
+    group: root
+    mode: 644
+  notify: restart lwp

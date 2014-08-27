@@ -1,7 +1,6 @@
 ---
 
-# Install LXC
-- name: Install packages
+- name: Install lxc packages
   apt: name={{ item }} state=present force=yes
   tags: lxc
   with_items:
@@ -12,17 +11,3 @@
     - git-core
     - dnsmasq
     - dnsmasq-utils
-
-# copy lxc web panel installation script
-- name: Copy lxc web panel install script
-  copy:
-    src: install-lwp.sh
-    dest: /etc/install-lwp.sh
-    owner: root
-    group: root
-    mode: 755
-
-# install lwp
-- name: Install lwp web panel
-  command: /etc/install-lwp.sh
-

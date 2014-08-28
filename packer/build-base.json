@@ -37,12 +37,5 @@
       "type": "shell",
       "script": "provisioners/install-base.sh"
     }
-  ],
-
-  "post-processors": [
-    {
-      "type": "vagrant",
-      "output": "lxc-cluster-unit.box"
-    }
   ]
 }

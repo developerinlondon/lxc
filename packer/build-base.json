@@ -1,0 +1,48 @@
+{
+  "builders": [
+    {
+      "type": "amazon-ebs",
+      "region": "us-east-1",
+      "source_ami": "ami-8827efe0",
+      "instance_type": "r3.large",
+      "ssh_username": "ubuntu",
+      "ami_name": "ansible-{{timestamp}}",
+      "ami_block_device_mappings": [
+        {
+          "device_name": "/dev/sda1",
+          "delete_on_termination": true,
+          "volume_size": 15,
+          "volume_type": "gp2"
+        },
+        {
+          "device_name": "/dev/sdf",
+          "delete_on_termination": true,
+          "volume_size": 35,
+          "volume_type": "gp2"
+        }
+      ],
+      "tags": {
+        "OS_Version": "Ubuntu",
+        "Release": "14.04",
+        "Name": "Ansible-Base",
+        "Ansible_Version": "Latest",
+        "Instance_Type" : "r3.large",
+        "Virtualisation": "hvm"
+      }
+    }
+  ],
+
+  "provisioners": [
+    {
+      "type": "shell",
+      "script": "provisioners/install-base.sh"
+    }
+  ],
+
+  "post-processors": [
+    {
+      "type": "vagrant",
+      "output": "lxc-cluster-unit.box"
+    }
+  ]
+}

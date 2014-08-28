@@ -35,6 +35,14 @@
   "provisioners": [
     {
       "type": "shell",
+      "script": "provisioners/mount-ephemeral.sh"
+    },
+    {
+      "type": "shell",
+      "script": "provisioners/mount-lxc.sh"
+    },
+    {
+      "type": "shell",
       "script": "provisioners/install-base.sh"
     }
   ],

@@ -16,12 +16,5 @@
       "playbook_file": "playbook/build.yml",
       "playbook_dir": "playbook"
     }
-  ],
-
-  "post-processors": [
-    {
-      "type": "vagrant",
-      "output": "lxc-cluster-unit.box"
-    }
   ]
 }

@@ -31,3 +31,11 @@ IPTABLES ISSUE:
 $ iptables -A POSTROUTING -d 10.0.3.95/32 -p tcp -m tcp --dport 80 -j MASQUERADE -t nat
 $ iptables -A PREROUTING -d 172.31.23.17/32 -p tcp -m tcp --dport 40000 -j DNAT --to-destination 10.0.3.95:80 -t nat
 ```
+
+Update rc.d:
+
+http://www.jamescoyle.net/cheat-sheets/791-update-rc-d-cheat-sheet
+
+configuring zfs:
+
+http://terrarum.net/blog/building-an-lxc-server.html#creating_a_base_container

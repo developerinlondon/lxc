@@ -34,12 +34,22 @@
 
   "provisioners": [
     {
+      "type": "file",
+      "source": "provisioners/files/ephemeral-mount.sh",
+      "destination": "ephemeral-mount"
+    },
+    {
       "type": "shell",
       "script": "provisioners/mount-ephemeral.sh"
     },
     {
+      "type": "file",
+      "source": "provisioners/files/lxc-ext4-mount.sh",
+      "destination": "lxc-mount"
+    },
+    {
       "type": "shell",
-      "script": "provisioners/mount-lxc.sh"
+      "script": "provisioners/mount-lxc-ext4.sh"
     },
     {
       "type": "shell",

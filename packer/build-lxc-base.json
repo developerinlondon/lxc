@@ -3,10 +3,10 @@
     {
       "type": "amazon-ebs",
       "region": "us-east-1",
-      "source_ami": "ami-8827efe0",
+      "source_ami": "ami-78399c10",
       "instance_type": "r3.large",
       "ssh_username": "ubuntu",
-      "ami_name": "lxc-cluster-unit-{{timestamp}}"
+      "ami_name": "node-{{timestamp}}"
     }
   ],
 

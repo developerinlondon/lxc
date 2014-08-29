@@ -1,5 +1,8 @@
 ---
 
+- name: Clear Cache files
+  shell: rm -rf /var/lib/apt/lists/partial/*
+
 - name: Update the apt cache.
   apt: update_cache=yes
 

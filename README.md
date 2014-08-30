@@ -39,3 +39,7 @@ http://www.jamescoyle.net/cheat-sheets/791-update-rc-d-cheat-sheet
 configuring zfs:
 
 http://terrarum.net/blog/building-an-lxc-server.html#creating_a_base_container
+
+References:
+===========
+- octohost - https://github.com/octohost/octohost

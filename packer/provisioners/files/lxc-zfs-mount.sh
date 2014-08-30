@@ -13,6 +13,8 @@
 #                    striped devices.
 ### END INIT INFO
 
+set -e
+
 VG_NAME=lxc-mount
 KEYDIR=/var/cache/lxc-mount
 

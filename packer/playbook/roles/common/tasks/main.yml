@@ -24,6 +24,9 @@
 - name: Install lynx
   apt: pkg=lynx-cur state=installed
 
+- name: Install htop
+  apt: pkg=htop state=installed
+
 - name: Fix locale.
   command: /usr/sbin/update-locale
 

@@ -13,25 +13,25 @@
 #                    striped devices.
 ### END INIT INFO
 
+# set -e
+# TODO: doesnt work witht the above. needs investigation.
+
 VG_NAME=ephemeral
 
 . /lib/lsb/init-functions
 
 ephemeral_start() {
-    DEVICES=$(/bin/ls /dev/xvdb* /dev/xvdc* /dev/xvdd* /dev/xvde* 2>/dev/null)
     PVSCAN_OUT=$(/sbin/pvscan)
 
-    for device in $DEVICES; do
-        if [ -z "$(/bin/echo "$PVSCAN_OUT" | grep " $device ")" ]; then
-            /bin/umount "$device"
-            /bin/sed -e "/$(basename $device)/d" -i /etc/fstab
-            /bin/dd if=/dev/zero of="$device" bs=1M count=10
-            /sbin/pvcreate "$device"
-        fi
-    done
+    if [ -z "$(/bin/echo "$PVSCAN_OUT" | grep "/dev/xvdb")" ]; then
+        /bin/umount "/dev/xvdb"
+        /bin/sed -e "/$(basename /dev/xvdb)/d" -i /etc/fstab
+        /bin/dd if=/dev/zero of="/dev/xvdb" bs=1M count=10
+        /sbin/pvcreate "dev/xvdb"
+    fi
 
     if [ ! -d "/dev/$VG_NAME" ]; then
-        /sbin/vgcreate "$VG_NAME" $DEVICES
+        /sbin/vgcreate "$VG_NAME" /dev/xvdb
     fi
 
     VGSIZE=$(/sbin/vgdisplay "$VG_NAME" | grep "Total PE" | sed -e "s/[^0-9]//g")
@@ -59,7 +59,6 @@ ephemeral_start() {
     /bin/chmod 755 /var/log
     cp -fr /var/log-old/* /var/log/
     rm -fr /var/log-old
-
 
     # do /var/cache
     /sbin/mkfs.xfs /dev/$VG_NAME/cache

@@ -17,7 +17,7 @@
         {
           "device_name": "/dev/sdf",
           "delete_on_termination": true,
-          "volume_size": 35,
+          "volume_size": 60,
           "volume_type": "gp2"
         }
       ],
@@ -44,7 +44,7 @@
     },
     {
       "type": "file",
-      "source": "provisioners/files/lxc-ext4-mount.sh",
+      "source": "provisioners/files/lxc-ext4-lvm-mount.sh",
       "destination": "lxc-mount"
     },
     {

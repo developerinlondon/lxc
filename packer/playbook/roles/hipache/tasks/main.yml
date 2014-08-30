@@ -12,8 +12,11 @@
 - name: Install Hipache Upstart script.
   copy: src=hipache.conf dest=/etc/init/hipache.conf owner=root group=root mode=644
 
+- name: Create logrotate directory.
+  file: state=directory path=/etc/logrotate/
+
 - name: Install Hipache logrotate.
-  copy:src=hipache.logrotate dest=/etc/logrotate/hipache owner=root group=root mode=644
+  copy: src=hipache.logrotate dest=/etc/logrotate/hipache owner=root group=root mode=644
 
 - name: Enable Hipache startup.
   service: name=hipache enabled=yes

@@ -5,8 +5,8 @@
     - lxc
     - runit
  #   - docker
-    # - redis
-    # - nodejs
-    # - hipache
+    - redis
+    - nodejs
+    - hipache
     # - serf
     # - gitreceive

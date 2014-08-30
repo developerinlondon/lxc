@@ -1,7 +1,13 @@
 ---
 
+- name: Add LXC repository
+  apt_repository:
+    repo: 'ppa:ubuntu-lxc/daily'
+    state: present
+    update_cache: yes
+
 - name: Install lxc packages
-  apt: name={{ item }} state=present force=yes
+  apt: name={{ item }} state=latest force=yes
   tags: lxc
   with_items:
     - lxc

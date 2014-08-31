@@ -2,6 +2,7 @@
   sudo: yes
   roles:
     - common
+    - aws
     - lxc
     - runit
  #   - docker

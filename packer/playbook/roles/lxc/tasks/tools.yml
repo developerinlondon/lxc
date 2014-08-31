@@ -1,0 +1,23 @@
+---
+
+- name: Creates .tools directory
+  sudo_user: ubuntu
+  file: path=~/.tools state=directory
+
+- name: Copy over the tools scripts
+  sudo_user: ubuntu
+  copy: src={{ item }} dest=~/.tools/ mode=0755
+  with_fileglob:
+    - .tools/*.sh
+
+- name: Install unprivileged lxc for ubuntu user
+  sudo_user: ubuntu
+  shell: ~/.tools/install-unprivileged.sh
+
+- name: Fix lxc Locale
+  sudo_user: ubuntu
+  shell: ~/.tools/fix-lxc-locale.sh
+
+- name: Update .bashrc with locale settings
+  sudo_user: ubuntu
+  lineinfile: dest=~/.bashrc insertafter=EOF line='export LANGUAGE=en_US.UTF-8 LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8'

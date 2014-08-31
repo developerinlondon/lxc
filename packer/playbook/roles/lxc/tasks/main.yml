@@ -1,4 +1,5 @@
 ---
 
 - include: lxc_install.yml
+- include: tools.yml
 - include: lwp_install.yml

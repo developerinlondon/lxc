@@ -2,9 +2,10 @@
   sudo: yes
   roles:
     - common
+    - aws
     - lxc
     - runit
- #   - docker
+    - docker
     - redis
     - nodejs
     - hipache

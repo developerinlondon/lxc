@@ -1,0 +1,18 @@
+---
+
+- name: Install awscli
+  apt: pkg=awscli state=installed
+
+- name: Create .aws folder
+  file: path=~/.aws state=directory
+
+- name: Copy the aws credentials file
+  copy: src=config dest=~/.aws/
+
+- name: Create .aws folder for ubuntu user
+  sudo_user: ubuntu
+  file: path=~/.aws state=directory
+
+- name: Copy the aws credentials file for ubuntu user
+  sudo_user: ubuntu
+  copy: src=config dest=~/.aws/

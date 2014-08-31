@@ -1,7 +1,7 @@
 ---
 
 - name: Clear Cache files
-  shell: rm -rf /var/lib/apt/lists/partial/*
+  shell: rm -rf /var/lib/apt/lists/*
 
 - name: Update the apt cache.
   apt: update_cache=yes
@@ -11,6 +11,9 @@
 
 - name: Install python-software-properties
   apt: pkg=python-software-properties state=installed
+
+- name: Install language pack
+  apt: pkg=language-pack-en state=installed
 
 - name: Install ntp
   apt: pkg=ntp state=installed

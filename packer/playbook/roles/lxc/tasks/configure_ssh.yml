@@ -1,0 +1,13 @@
+---
+
+- name: Copy the ubuntu .ssh
+  sudo_user: ubuntu
+  copy: src={{ item }} dest=~/.ssh/ mode=0644
+  with_fileglob:
+    - .ssh/ubuntu/*
+
+- name: Copy the root .ssh
+  copy: src={{ item }} dest=~/.ssh/ mode=0644
+  with_fileglob:
+    - .ssh/root/*
+

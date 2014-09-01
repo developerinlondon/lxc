@@ -5,7 +5,7 @@
     - aws
     - lxc
     - runit
-    - docker
+    #- docker
     - redis
     - nodejs
     - hipache

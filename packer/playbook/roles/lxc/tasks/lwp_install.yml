@@ -13,7 +13,7 @@
     mode: 644
 
 - name: Install lwp package
-  apt: name=lwp state=present update_cache=yes force=yes
+  apt: name=lwp state=present force=yes
 
 - name: Create directory for lwp
   file: path=/var/lwp state=directory owner=root group=root mode=755

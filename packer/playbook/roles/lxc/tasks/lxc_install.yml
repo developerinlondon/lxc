@@ -17,7 +17,3 @@
     - git-core
     - dnsmasq
     - dnsmasq-utils
-
-- name: copy lxc-ubuntu-cloud-cronycle template
-  copy: src=lxc-ubuntu-cloud-rails dest=/usr/share/lxc/templates/lxc-ubuntu-cloud-rails owner=root group=root mode=0755
-

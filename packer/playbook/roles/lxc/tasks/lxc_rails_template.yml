@@ -15,19 +15,3 @@
     - ansible
     - git
   ignore_errors: yes
-
-- name: Create .authorized_keys.
-  shell: touch /var/lib/lxc/ubuntu/rootfs/home/ubuntu/.ssh/authorized_keys
-  ignore_errors: yes
-
-- name: Install the ssh keys in the template
-  shell: cat ~/.ssh/id_rsa.pub >> /var/lib/lxc/ubuntu/rootfs/home/ubuntu/.ssh/authorized_keys
-  ignore_errors: yes
-
-- name: Install the ssh keys in the template
-  shell: cat /home/ubuntu/.ssh/id_rsa.pub >> /var/lib/lxc/ubuntu/rootfs/home/ubuntu/.ssh/authorized_keys
-  ignore_errors: yes
-
-- name: Fix permissions
-  shell: chown ubuntu:ubuntu /var/lib/lxc/ubuntu/rootfs/home/ubuntu/.ssh/authorized_keys
-  ignore_errors: yes

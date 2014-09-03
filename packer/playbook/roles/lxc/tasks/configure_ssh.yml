@@ -12,13 +12,13 @@
     - .ssh/root/*
 
 - name: Set right permission for id_rsa
-  shell: chmod 0700 {{ item }}
-  with_item:
+  command: chmod 0700 {{ item }}
+  with_items:
     - ~/.ssh/id_rsa
     - /home/ubuntu/.ssh/id_rsa
 
 - name: Set right permission for id_rsa.pub
-  shell: chmod 0644 {{ item }}
-  with_item:
+  command: chmod 0644 {{ item }}
+  with_items:
     - ~/.ssh/id_rsa.pub
     - /home/ubuntu/.ssh/id_rsa.pub

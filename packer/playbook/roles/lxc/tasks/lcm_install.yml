@@ -1,0 +1,7 @@
+---
+
+- name: Install the git repo for lcm
+  git:
+    repo: git@github.com:cronycle/lcm
+    dest: /cronycle_lcm
+    accept_hostkey: yes

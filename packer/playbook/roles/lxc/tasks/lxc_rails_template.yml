@@ -4,17 +4,14 @@
   copy: src=lxc-ubuntu-cloud-rails dest=/usr/share/lxc/templates/lxc-ubuntu-cloud-rails owner=root group=root mode=0755
 
 - name: Add lxc ubuntu-cloud template
-  shell: lxc-create --template lxc-ubuntu-cloud-rails --name ubuntu
+  shell: lxc-create --template ubuntu-cloud --name ubuntu
 
 - name: Start the container
   shell: lxc-start --name ubuntu
 
-- name: Install some needed packages on the ubuntu template
-  shell: lxc-attach --name ubuntu apt-get install {{ item }} -y
-  with_items:
-    - ansible
-    - git
-  ignore_errors: yes
-
-- name: Install the git repo for lcm
-  git: repo=ssh://git@github.com:cronycle/cronycle_lcm.git dest=/cronycle_lcm
+# - name: Install some needed packages on the ubuntu template
+#   shell: lxc-attach --name ubuntu apt-get install {{ item }} -y
+#   with_items:
+#     - ansible
+#     - git
+#   ignore_errors: yes

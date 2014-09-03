@@ -11,3 +11,14 @@
   with_fileglob:
     - .ssh/root/*
 
+- name: Set right permission for id_rsa
+  command: chmod 0700 {{ item }}
+  with_items:
+    - ~/.ssh/id_rsa
+    - /home/ubuntu/.ssh/id_rsa
+
+- name: Set right permission for id_rsa.pub
+  command: chmod 0644 {{ item }}
+  with_items:
+    - ~/.ssh/id_rsa.pub
+    - /home/ubuntu/.ssh/id_rsa.pub

@@ -4,10 +4,14 @@
     - common
     - aws
     - lxc
-    - runit
+    - rvm
+
+    #- runit
     #- docker
+
     - redis
     - nodejs
     - hipache
+
     # - serf
     # - gitreceive

@@ -1,0 +1,4 @@
+---
+
+- name: Check out the lcm repo
+  git: repo=git@github.com:cronycle/cronycle_lcm.git dest=/lcm

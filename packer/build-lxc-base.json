@@ -9,7 +9,13 @@
       "ami_name": "node-{{timestamp}}"
     }
   ],
-
+  "tags": {
+    "OS_Version": "Ubuntu",
+    "Release": "14.04",
+    "Name": "Node-Base",
+    "Instance_Type" : "r3.large",
+    "Virtualisation": "hvm"
+  },
   "provisioners": [
     {
       "type": "ansible-local",

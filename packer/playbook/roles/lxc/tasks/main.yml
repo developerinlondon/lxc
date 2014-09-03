@@ -4,5 +4,6 @@
 - include: tools.yml
 - include: configure_ssh.yml
 - include: lxc_rails_template.yml
+- include: lcm_install.yml
 
 #- include: lwp_install.yml

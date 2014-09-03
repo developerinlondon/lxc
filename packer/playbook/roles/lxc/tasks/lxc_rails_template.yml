@@ -4,30 +4,14 @@
   copy: src=lxc-ubuntu-cloud-rails dest=/usr/share/lxc/templates/lxc-ubuntu-cloud-rails owner=root group=root mode=0755
 
 - name: Add lxc ubuntu-cloud template
-  shell: lxc-create --template lxc-ubuntu-cloud-rails --name ubuntu
+  shell: lxc-create --template ubuntu-cloud --name ubuntu
 
 - name: Start the container
   shell: lxc-start --name ubuntu
 
-- name: Install some needed packages on the ubuntu template
-  shell: lxc-attach --name ubuntu apt-get install {{ item }} -y
-  with_items:
-    - ansible
-    - git
-  ignore_errors: yes
-
-- name: Create .authorized_keys.
-  shell: touch /var/lib/lxc/ubuntu/rootfs/home/ubuntu/.ssh/authorized_keys
-  ignore_errors: yes
-
-- name: Install the ssh keys in the template
-  shell: cat ~/.ssh/id_rsa.pub >> /var/lib/lxc/ubuntu/rootfs/home/ubuntu/.ssh/authorized_keys
-  ignore_errors: yes
-
-- name: Install the ssh keys in the template
-  shell: cat /home/ubuntu/.ssh/id_rsa.pub >> /var/lib/lxc/ubuntu/rootfs/home/ubuntu/.ssh/authorized_keys
-  ignore_errors: yes
-
-- name: Fix permissions
-  shell: chown ubuntu:ubuntu /var/lib/lxc/ubuntu/rootfs/home/ubuntu/.ssh/authorized_keys
-  ignore_errors: yes
+# - name: Install some needed packages on the ubuntu template
+#   shell: lxc-attach --name ubuntu apt-get install {{ item }} -y
+#   with_items:
+#     - ansible
+#     - git
+#   ignore_errors: yes

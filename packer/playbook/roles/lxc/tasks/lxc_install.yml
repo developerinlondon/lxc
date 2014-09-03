@@ -17,3 +17,4 @@
     - git-core
     - dnsmasq
     - dnsmasq-utils
+  ignore_errors: yes

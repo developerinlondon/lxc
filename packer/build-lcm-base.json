@@ -3,14 +3,14 @@
     {
       "type": "amazon-ebs",
       "region": "us-east-1",
-      "source_ami": "ami-749a3c1c",
+      "source_ami": "ami-5262c43a",
       "instance_type": "r3.large",
       "ssh_username": "ubuntu",
       "ami_name": "node-{{timestamp}}",
       "tags" : {
         "OS_Version": "Ubuntu",
         "Release": "14.04",
-        "Name": "lxc-base",
+        "Name": "lcm-base",
         "Instance_Type" : "r3.large",
         "Virtualisation": "hvm"
       }
@@ -20,7 +20,7 @@
   "provisioners": [
     {
       "type": "ansible-local",
-      "playbook_file": "playbook/build.yml",
+      "playbook_file": "playbook/build-lcm.yml",
       "playbook_dir": "playbook"
     }
   ]

@@ -1,4 +1,28 @@
 ---
 
-- name: Check out the lcm repo
-  git: repo=git@github.com:cronycle/cronycle_lcm.git dest=/lcm
+- name: Add progress bar to curl
+  shell: echo progress-bar >> ~/.curlrc
+
+- name: install rvm with ruby and rails
+  shell: curl -sSL https://get.rvm.io | bash -s stable --without-gems="rvm rubygems-bundler"
+
+- name: Install the git repo for lcm
+  git:
+    repo: git@github.com:cronycle/cronycle_lcm
+    dest: /lcm
+    accept_hostkey: yes
+
+# - name: Install needed gems
+#   gem: name={{ item }} state=latest executable=/usr/local/rvm/rubies/ruby-2.1.2/bin/gem
+#   with_items:
+#     - bundler
+#   ignore_errors: yes
+
+- name: Install bundler
+  apt: pkg=bundler state=installed
+
+# - name: configure the lcm repo
+#   shell: bundle
+#   args:
+#     chdir: /lcm
+#   ignore_errors: yes

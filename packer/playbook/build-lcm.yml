@@ -1,18 +1,19 @@
 - hosts: all
   sudo: yes
   roles:
-    - common
-    - aws
-    - lxc
-    - ruby
+    # - common
+    # - aws
+    # - lxc
     # - rvm
+    #- ruby
+    - lcm
 
     #- runit
     #- docker
 
-    - redis
-    - nodejs
-    - hipache
+    # - redis
+    # - nodejs
+    # - hipache
 
     # - serf
     # - gitreceive

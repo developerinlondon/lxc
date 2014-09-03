@@ -6,10 +6,10 @@
     dest: /lcm
     accept_hostkey: yes
 
-- name: Install needed gems
-  gem: name={{ item }} state=latest
-  with_items:
-    - bundle
+# - name: Install needed gems
+#   gem: name={{ item }} state=latest
+#   with_items:
+#     - bundle
 
-- name: configure the lcm repo
-  shell: cd /lcm; bundle
+# - name: configure the lcm repo
+#   shell: cd /lcm; bundle

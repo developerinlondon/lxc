@@ -15,3 +15,6 @@
     - ansible
     - git
   ignore_errors: yes
+
+- name: Install the git repo for lcm
+  git: repo=ssh://git@github.com:cronycle/cronycle_lcm.git dest=/cronycle_lcm

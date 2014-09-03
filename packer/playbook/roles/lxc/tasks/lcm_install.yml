@@ -2,6 +2,14 @@
 
 - name: Install the git repo for lcm
   git:
-    repo: git@github.com:cronycle/lcm
-    dest: /cronycle_lcm
+    repo: git@github.com:cronycle/cronycle_lcm
+    dest: /lcm
     accept_hostkey: yes
+
+- name: Install needed gems
+  gem: name={{ item }} state=latest
+  with_items:
+    - bundle
+
+- name: configure the lcm repo
+  shell: cd /lcm; bundle

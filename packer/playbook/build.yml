@@ -4,6 +4,7 @@
     - common
     - aws
     - lxc
+    - rvm
 
     #- runit
     #- docker

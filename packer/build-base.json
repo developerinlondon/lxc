@@ -24,7 +24,7 @@
       "tags": {
         "OS_Version": "Ubuntu",
         "Release": "14.04",
-        "Name": "Ansible-Base",
+        "Name": "ansible-base",
         "Ansible_Version": "Latest",
         "Instance_Type" : "r3.large",
         "Virtualisation": "hvm"

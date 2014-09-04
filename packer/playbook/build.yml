@@ -5,6 +5,7 @@
     - aws
     - lxc
     - lcm
+    - lwp
     # - rvm
 
     #- runit

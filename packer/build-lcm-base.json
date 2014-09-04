@@ -3,10 +3,10 @@
     {
       "type": "amazon-ebs",
       "region": "us-east-1",
-      "source_ami": "ami-5262c43a",
+      "source_ami": "ami-8869cfe0",
       "instance_type": "r3.large",
       "ssh_username": "ubuntu",
-      "ami_name": "node-{{timestamp}}",
+      "ami_name": "lxc-{{timestamp}}",
       "tags" : {
         "OS_Version": "Ubuntu",
         "Release": "14.04",

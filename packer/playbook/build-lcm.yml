@@ -6,7 +6,8 @@
     # - lxc
     #- rvm
     #- ruby
-    - lcm
+    # - lcm
+    - lwp
 
     #- runit
     #- docker

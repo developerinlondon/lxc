@@ -39,7 +39,7 @@ ephemeral_start() {
     # tmp/log should be 50%
     # NO STRIPING ON ANY VOLUMES!!!
     # for some reason, striping ephemeral volumes is slower than not striping.
-    [ ! -e "/dev/$VG_NAME/log" ] && /sbin/lvcreate -l40%VG -nlog "$VG_NAME"
+    # [ ! -e "/dev/$VG_NAME/log" ] && /sbin/lvcreate -l40%VG -nlog "$VG_NAME"
     [ ! -e "/dev/$VG_NAME/tmp" ] && /sbin/lvcreate -l30%VG -ntmp "$VG_NAME"
     [ ! -e "/dev/$VG_NAME/cache" ] && /sbin/lvcreate -l30%VG -ncache "$VG_NAME"
 
@@ -50,15 +50,15 @@ ephemeral_start() {
     /bin/mount -t xfs /dev/$VG_NAME/tmp /tmp
     /bin/chmod 1777 /tmp
 
-    # do /var/log
-    /sbin/mkfs.xfs /dev/$VG_NAME/log
-    mv /var/log /var/log-old
-    /bin/mkdir -p /var/log
-    [ -z "$(mount | grep " on /var/log ")" ] && rm -rf /var/log/*
-    /bin/mount -t xfs /dev/$VG_NAME/log /var/log
-    /bin/chmod 755 /var/log
-    cp -fr /var/log-old/* /var/log/
-    rm -fr /var/log-old
+    # # do /var/log
+    # /sbin/mkfs.xfs /dev/$VG_NAME/log
+    # mv /var/log /var/log-old
+    # /bin/mkdir -p /var/log
+    # [ -z "$(mount | grep " on /var/log ")" ] && rm -rf /var/log/*
+    # /bin/mount -t xfs /dev/$VG_NAME/log /var/log
+    # /bin/chmod 755 /var/log
+    # cp -fr /var/log-old/* /var/log/
+    # rm -fr /var/log-old
 
     # do /var/cache
     /sbin/mkfs.xfs /dev/$VG_NAME/cache
@@ -80,11 +80,11 @@ ephemeral_stop() {
     cp -fr /var/cache-old/* /var/cache/
     rm -fr /var/cache-old
 
-    cp -fr /var/log /var/log-old
-    /sbin/umount /var/log
-    /bin/chmod 755 /var/log
-    cp -fr /var/log-old/* /var/log/
-    rm -fr /var/log-old
+    # cp -fr /var/log /var/log-old
+    # /sbin/umount /var/log
+    # /bin/chmod 755 /var/log
+    # cp -fr /var/log-old/* /var/log/
+    # rm -fr /var/log-old
 
     /bin/umount /tmp
 

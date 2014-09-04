@@ -1,13 +1,19 @@
 - hosts: all
   sudo: yes
-  roles:
+  #roles:
     # - common
     # - aws
     # - lxc
     #- rvm
     #- ruby
     # - lcm
-    - lwp
+    #- lwp
+  tasks:
+    - name: Create log directory for redis.
+      shell: mkdir -p /var/log/redis
+
+    - name: set log directory permission
+      shell: chmod 0666 /var/log/redis
 
     #- runit
     #- docker

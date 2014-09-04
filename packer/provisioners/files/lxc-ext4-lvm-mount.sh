@@ -22,7 +22,7 @@ VG_NAME=lxc
 
 case "$1" in
   start)
-    if df | grep /dev/mapper/lxc; then
+    if df | grep /dev/mapper/$VG_NAME then
       log_daemon_msg "Looks like its already mounted!" "lxc-mount"
       .
     else
@@ -32,25 +32,34 @@ case "$1" in
       VGSIZE=$(/sbin/vgdisplay "$VG_NAME" | grep "Total PE" | sed -e "s/[^0-9]//g")
 
       [ ! -e "/dev/$VG_NAME/share" ] && /sbin/lvcreate -L 10G -nshare "$VG_NAME"
+      [ ! -e "/dev/$VG_NAME/log" ] && /sbin/lvcreate -L 25G -nlog "$VG_NAME"
       [ ! -e "/dev/$VG_NAME/lib" ] && /sbin/lvcreate -l100%FREE -nlib "$VG_NAME"
 
 
       # Do /usr/share/lxc
       /sbin/mkfs -t ext4 /dev/$VG_NAME/share
-      /bin/mkdir -p /usr/share/lxc
+      /bin/mkdir -p /usr/share/$VG_NAME
       [ -z "$(mount | grep " on /usr/share/lxc ")" ] && rm -rf /usr/share/lxc/*
       /bin/mount /dev/$VG_NAME/share /usr/share/lxc
       /bin/chmod 755 /usr/share/lxc
 
+      # Do /var/log
+      /sbin/mkfs -t ext4 /dev/$VG_NAME/log
+      /bin/mkdir -p /var/log
+      [ -z "$(mount | grep " on /var/log ")" ] && rm -rf /var/log/*
+      /bin/mount /dev/$VG_NAME/log /var/log
+      /bin/chmod 755 /var/log
+
       # Do /var/lib/lxc
       /sbin/mkfs -t ext4 /dev/$VG_NAME/lib
-      /bin/mkdir -p /var/lib/lxc
+      /bin/mkdir -p /var/lib/$VG_NAME
       [ -z "$(mount | grep " on /var/lib/lxc ")" ] && rm -rf /var/lib/lxc/*
       /bin/mount /dev/$VG_NAME/lib /var/lib/lxc
       /bin/chmod 755 /var/lib/lxc
 
       # update fstab for automounting in future
       sudo echo "/dev/$VG_NAME/share /usr/share/lxc  auto  defaults,nobootwait,comment=lxc 0 0" >> /etc/fstab
+      sudo echo "/dev/$VG_NAME/log /var/log auto  defaults,nobootwait,comment=lxc 0 0" >> /etc/fstab
       sudo echo "/dev/$VG_NAME/lib /var/lib/lxc  auto  defaults,nobootwait,comment=lxc 0 0" >> /etc/fstab
 
       # take off the init script

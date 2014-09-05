@@ -16,3 +16,12 @@ rvm install ruby-2.1.2
 rvm use 2.1.2
 
 bundle install
+
+# prepare the git info
+git config --global user.name "Nayeem Syed"
+git config --global user.email developerinlondon@gmail.com
+
+# just so that user ubuntu can operate lcm
+chown -R ubuntu:ubuntu /usr/local/rvm
+chown -R ubuntu:ubuntu /lcm
+chown -R ubuntu:ubuntu /lcm/.git

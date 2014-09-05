@@ -38,7 +38,7 @@ case "$1" in
 
       # Do /usr/share/lxc
       /sbin/mkfs -t ext4 /dev/$VG_NAME/share
-      /bin/mkdir -p /usr/share/$VG_NAME
+      /bin/mkdir -p /usr/share/lxc
       [ -z "$(mount | grep " on /usr/share/lxc ")" ] && rm -rf /usr/share/lxc/*
       /bin/mount /dev/$VG_NAME/share /usr/share/lxc
       /bin/chmod 755 /usr/share/lxc
@@ -52,7 +52,7 @@ case "$1" in
 
       # Do /var/lib/lxc
       /sbin/mkfs -t ext4 /dev/$VG_NAME/lib
-      /bin/mkdir -p /var/lib/$VG_NAME
+      /bin/mkdir -p /var/lib/lxc
       [ -z "$(mount | grep " on /var/lib/lxc ")" ] && rm -rf /var/lib/lxc/*
       /bin/mount /dev/$VG_NAME/lib /var/lib/lxc
       /bin/chmod 755 /var/lib/lxc

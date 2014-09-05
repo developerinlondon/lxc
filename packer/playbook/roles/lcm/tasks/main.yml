@@ -6,6 +6,14 @@
     dest: /lcm
     accept_hostkey: yes
 
+- name: Install the necessary libraries
+  apt: name={{ item }} state=latest force=yes
+  tags: lxc
+  with_items:
+    - lxc-dev
+    - build-essential
+    - ruby-dev
+
 - name: copy lcm initialize script
   copy: src=initialize-lcm.sh dest=~/initialize-lcm.sh mode=775
 

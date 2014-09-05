@@ -6,8 +6,14 @@
 - name: Add lxc ubuntu-cloud template
   shell: lxc-create --template ubuntu-cloud --name ubuntu
 
-- name: Start the container
-  shell: lxc-start --name ubuntu
+- name: copy ubuntu template's configuration
+  copy: src=ubuntu.config dest=/tmp/ubuntu.config owner=root group=root mode=0755
+
+- name: add ubuntu template's configuration
+  shell: cat /tmp/ubuntu.config >> /var/lib/lxc/ubuntu/config
+
+# - name: Start the container
+#   shell: lxc-start --name ubuntu
 
 # - name: Install some needed packages on the ubuntu template
 #   shell: lxc-attach --name ubuntu apt-get install {{ item }} -y

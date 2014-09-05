@@ -3,5 +3,5 @@
 - include: lxc_install.yml
 - include: tools.yml
 - include: configure_ssh.yml
-- include: lxc_rails_template.yml
+- include: lxc_install_templates.yml
 

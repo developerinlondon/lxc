@@ -6,10 +6,7 @@
 - name: Install aws
   pip: name=awscli
 
-- name: Add /usr/local/bin to path for ubuntu
-  sudo_user: ubuntu
-  lineinfile: dest=~/.bashrc line="export PATH=/usr/local/bin:$PATH"
-
+# root
 - name: Add /usr/local/bin to path for root
   lineinfile: dest=~/.bashrc line="export PATH=/usr/local/bin:$PATH"
 
@@ -17,7 +14,18 @@
   file: path=~/.aws state=directory
 
 - name: Copy the aws credentials file
-  copy: src=config dest=~/.aws/
+  template: src=config.j2 dest=~/.aws/config
+
+- name: Copy the boto aws credentials file
+  template: src=.aws.sh.j2 dest=~/.aws.sh mode=0755
+
+- name: Update the bashrc
+  lineinfile: dest=~/.bashrc insertafter=EOF line='source ~/.aws.sh'
+
+# ubuntu user
+- name: Add /usr/local/bin to path for ubuntu
+  sudo_user: ubuntu
+  lineinfile: dest=~/.bashrc line="export PATH=/usr/local/bin:$PATH"
 
 - name: Create .aws folder for ubuntu user
   sudo_user: ubuntu
@@ -25,4 +33,12 @@
 
 - name: Copy the aws credentials file for ubuntu user
   sudo_user: ubuntu
-  copy: src=config dest=~/.aws/
+  template: src=config.j2 dest=~/.aws/config
+
+- name: Copy the boto aws credentials file
+  sudo_user: ubuntu
+  template: src=.aws.sh.j2 dest=~/.aws.sh mode=0755
+
+- name: Update the bashrc for ubuntu
+  lineinfile: dest=~/.bashrc insertafter=EOF line='source ~/.aws.sh'
+

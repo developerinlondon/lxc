@@ -18,3 +18,19 @@
 
 - name: initialize lcm
   command: ~/initialize-lcm.sh
+
+- name: Run local ansible-playbook to generate ssh keys
+  shell: ansible-playbook playbook/prepare.yml --tags ssh-keys
+  args:
+    chdir: /lcm/
+
+# - name: Run local ansible-playbook to load inventory file
+#   shell: ansible-playbook playbook/prepare.yml --tags ubuntu-container
+#   args:
+#     chdir: /lcm/
+#     creates: /lcm/.inventory
+
+# - name: Run local ansible-playbook to prepare rails environment inside ubuntu container
+#   shell: ansible-playbook playbook/build.yml
+#   args:
+#     chdir: /lcm/

@@ -12,3 +12,7 @@ sublime:
   mkdir /Volumes/lcm
   /usr/local/bin/sshfs ubuntu@lxc:/lcm /Volumes/lcm
 
+lxc:
+  backup/restore: http://criu.org/LXC
+  pre-created images: http://download.openvz.org/template/precreated/
+

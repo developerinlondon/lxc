@@ -9,9 +9,6 @@
 - name: copy ubuntu template's configuration
   template: src=config.j2 dest=/var/lib/lxc/ubuntu/config owner=root group=root mode=0644
 
-- name: add ubuntu template's configuration
-  shell: cat /tmp/ubuntu.config >> /var/lib/lxc/ubuntu/config
-
 # - name: Start the container
 #   shell: lxc-start --name ubuntu
 

@@ -1,7 +1,17 @@
 ---
 
-- name: Install awscli
-  apt: pkg=awscli state=installed
+- name: Install pip
+  apt: pkg=python-pip state=installed
+
+- name: Install aws
+  pip: name=awscli
+
+- name: Add /usr/local/bin to path for ubuntu
+  sudo_user: ubuntu
+  lineinfile: dest=~/.bashrc line="export PATH=/usr/local/bin:$PATH"
+
+- name: Add /usr/local/bin to path for root
+  lineinfile: dest=~/.bashrc line="export PATH=/usr/local/bin:$PATH"
 
 - name: Create .aws folder
   file: path=~/.aws state=directory

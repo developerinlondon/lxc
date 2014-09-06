@@ -8,7 +8,6 @@
 
 - name: Install the necessary libraries
   apt: name={{ item }} state=latest force=yes
-  tags: lxc
   with_items:
     - lxc-dev
     - build-essential

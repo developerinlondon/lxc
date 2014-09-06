@@ -3,7 +3,6 @@
 # Install LXC
 - name: install packages
   apt: name={{ item }} state=present force=yes
-  tags: lxc
   with_items:
     - lxc
     - bridge-utils

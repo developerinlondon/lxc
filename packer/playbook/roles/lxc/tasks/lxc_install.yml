@@ -8,7 +8,6 @@
 
 - name: Install lxc packages
   apt: name={{ item }} state=latest force=yes
-  tags: lxc
   with_items:
     - lxc
     - bridge-utils

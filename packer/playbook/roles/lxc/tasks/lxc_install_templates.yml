@@ -7,7 +7,7 @@
   shell: lxc-create --template ubuntu-cloud --name ubuntu
 
 - name: copy ubuntu template's configuration
-  copy: src=ubuntu.config dest=/tmp/ubuntu.config owner=root group=root mode=0755
+  template: src=config.j2 dest=/var/lib/lxc/ubuntu/config owner=root group=root mode=0644
 
 - name: add ubuntu template's configuration
   shell: cat /tmp/ubuntu.config >> /var/lib/lxc/ubuntu/config

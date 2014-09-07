@@ -16,3 +16,8 @@ lxc:
   backup/restore: http://criu.org/LXC
   pre-created images: http://download.openvz.org/template/precreated/
 
+testing:
+  serverspec: http://sharknet.us/2014/02/04/infrastructure-testing-with-ansible-and-serverspec-part-1/
+  ansible_spec: http://rubygems.org/gems/ansible_spec
+
+

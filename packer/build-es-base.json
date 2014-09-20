@@ -1,0 +1,27 @@
+{
+  "builders": [
+    {
+      "type": "amazon-ebs",
+      "region": "us-east-1",
+      "source_ami": "ami-a611b7ce",
+      "instance_type": "r3.large",
+      "ssh_username": "ubuntu",
+      "ami_name": "node-{{timestamp}}",
+      "tags" : {
+        "OS_Version": "Ubuntu",
+        "Release": "14.04",
+        "Name": "lxc-base",
+        "Instance_Type" : "r3.large",
+        "Virtualisation": "hvm"
+      }
+    }
+  ],
+
+  "provisioners": [
+    {
+      "type": "ansible-local",
+      "playbook_file": "playbook/build.yml",
+      "playbook_dir": "playbook"
+    }
+  ]
+}

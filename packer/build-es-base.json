@@ -23,7 +23,7 @@
         {
           "device_name": "/dev/sdf",
           "delete_on_termination": true,
-          "volume_size": 100,
+          "volume_size": "{{user `es_data_volume_size`}}",
           "volume_type": "gp2"
         }
       ],

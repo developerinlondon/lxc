@@ -1,0 +1,17 @@
+---
+
+# Install Paramedic dashboard
+- name: "Install Paramedic dashboard"
+  action: command {{ elasticsearch.plugin }} -install {{ paramedic.name }} creates={{ paramedic.index }}
+
+# Install Head
+- name: "Install HEAD plugin"
+  action: command {{ elasticsearch.plugin }} -install {{ head.name }} creates={{ head.index }}
+
+# Install Marvel
+- name: "Install Marvel plugin"
+  action: command {{ elasticsearch.plugin }} -install {{ marvel.name }} creates={{ marvel.index }}
+
+# Install cloud-aws
+- name: "Install cloud-aws plugin"
+  action: command {{ elasticsearch.plugin }} -install {{ cloud_aws.name }} creates={{ cloud_aws.jar }}

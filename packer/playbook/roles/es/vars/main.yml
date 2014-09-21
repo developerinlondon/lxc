@@ -1,0 +1,27 @@
+---
+elasticsearch:
+  url: 'http://download.elasticsearch.org/elasticsearch/elasticsearch'
+  deb:
+    service: 'elasticsearch'
+  plugin: '/usr/share/elasticsearch/bin/plugin'
+  config: '/etc/elasticsearch/elasticsearch.yml'
+  tmp: '/tmp'
+  environment: 'uat'
+
+paramedic:
+  index: '/usr/share/elasticsearch/plugins/paramedic/_site/index.html'
+  name: 'karmi/elasticsearch-paramedic'
+
+head:
+  index: '/usr/share/elasticsearch/plugins/head/_site/index.html'
+  name: 'mobz/elasticsearch-head'
+
+marvel:
+  index: '/usr/share/elasticsearch/plugins/marvel/_site/index.html'
+  name: 'elasticsearch/marvel/latest'
+
+cloud_aws:
+  jar: '/usr/share/elasticsearch/plugins/cloud-aws/aws-java-sdk-1.7.13.jar'
+  name: 'elasticsearch/elasticsearch-cloud-aws/2.3.0'
+  access_key: AKIAI4JUQD3B5Z47GOEQ
+  secret_key: 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

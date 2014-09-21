@@ -1,0 +1,32 @@
+{
+  "builders": [
+    {
+      "type": "amazon-ebs",
+      "region": "us-east-1",
+      "source_ami": "ami-c065cda8",
+      "instance_type": "r3.large",
+      "ssh_username": "ubuntu",
+      "ami_name": "es-{{timestamp}}",
+      "tags" : {
+        "OS_Version": "Ubuntu",
+        "Release": "14.04",
+        "Name": "es-base",
+        "Instance_Type" : "r3.large",
+        "Virtualisation": "hvm",
+        "environment": "uat"
+      }
+    }
+  ],
+
+  "provisioners": [
+    {
+      "type": "shell",
+      "script": "provisioners/install-base.sh"
+    },
+    {
+      "type": "ansible-local",
+      "playbook_file": "playbook/build-es.yml",
+      "playbook_dir": "playbook"
+    }
+  ]
+}

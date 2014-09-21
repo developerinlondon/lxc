@@ -3,6 +3,9 @@
 - name: copy ansible hosts file
   copy: src=ansible-hosts dest=/etc/ansible/hosts
 
+- name: create ~/.ansible directory
+  shell: mkdir -p ~/.ansible
+
 - name: copy the ansible hosts file to ~/.ansible/inventory also
   copy: src=ansible-hosts dest=~/.ansible/inventory
 

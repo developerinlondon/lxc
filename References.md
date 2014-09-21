@@ -21,3 +21,8 @@ testing:
   ansible_spec: http://rubygems.org/gems/ansible_spec
 
 
+installing elasticsearch 1.3.x on ubuntu 14.04:
+  http://blog.bekijkhet.com/2014/06/install-elasticsearch-in-ubuntu-1404.html
+
+elasticsearch aws discovery:
+  http://www.markbetz.net/2014/03/18/elasticsearch-discovery-in-ec2/

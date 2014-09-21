@@ -1,0 +1,5 @@
+---
+
+- include: mount.yml
+- include: install.yml
+- include: plugins.yml

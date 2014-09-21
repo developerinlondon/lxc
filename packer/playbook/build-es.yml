@@ -18,6 +18,7 @@
     # - nodejs
     # - hipache
 
+    - oracle-jdk
     - es
 
     # - serf

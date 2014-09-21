@@ -3,13 +3,13 @@ Install ElasticSearch
 
 1. get a base ami image. (unless one already exists):
 
-  `packer build -var-file=config/default.json -var-file=config/es-uat.json build-es-base.json`
+  `packer build build-es-base.json`
 
 2. Put in the base image id in build-es-base.json to build a base-es image (for elasticSearch).
 
 3. build the es base image:
 
-  `packer build -var-file=config/default.json -var-file=config/es-uat.json post-build-es-base.json`
+  `packer build -var 'base_es_ami=<new_image_id>' post-build-es-base.json`
 
 4. Update the cloudformation so it uses the base-es image.
 

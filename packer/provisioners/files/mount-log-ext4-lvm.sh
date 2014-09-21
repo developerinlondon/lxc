@@ -16,7 +16,7 @@
 set -e
 set -o xtrace
 
-VG_NAME=log
+VG_NAME=logs
 
 . /lib/lsb/init-functions
 
@@ -31,17 +31,17 @@ case "$1" in
 
       VGSIZE=$(/sbin/vgdisplay "$VG_NAME" | grep "Total PE" | sed -e "s/[^0-9]//g")
 
-      [ ! -e "/dev/$VG_NAME" ] && /sbin/lvcreate -l100%FREE -nlog "$VG_NAME"
+      [ ! -e "/dev/$VG_NAME/main" ] && /sbin/lvcreate -l100%FREE -nmain "$VG_NAME"
 
       # Do /var/log
-      /sbin/mkfs -t ext4 /dev/$VG_NAME
+      /sbin/mkfs -t ext4 /dev/$VG_NAME/main
       /bin/mkdir -p /var/log
       [ -z "$(mount | grep " on /var/log ")" ] && rm -rf /var/log/*
-      /bin/mount /dev/$VG_NAME /var/log
+      /bin/mount /dev/$VG_NAME/main /var/log
       /bin/chmod 755 /var/log
 
       # update fstab for automounting in future
-      sudo echo "/dev/$VG_NAME /var/log auto  defaults,nobootwait,comment=es 0 0" >> /etc/fstab
+      sudo echo "/dev/$VG_NAME/main /var/log auto  defaults,nobootwait,comment=es 0 0" >> /etc/fstab
 
       # take off the init script
       update-rc.d -f mount-log remove

@@ -1,0 +1,9 @@
+---
+
+#WIP
+
+- name: Install the ephemeral mount service
+  shell: rm -rf /var/lib/apt/lists/*
+
+- name: copy the ephemeral mount service
+  template: src=mount-ephemeral.sh dest=/etc/init.d/mount-ephemeral.sh

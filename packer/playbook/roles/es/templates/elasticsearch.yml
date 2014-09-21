@@ -13,8 +13,8 @@ plugin:
 
 cloud:
   aws:
-    access_key: {{ cloud_aws.access_key }}
-    secret_key: {{ cloud_aws.secret_key }}
+    access_key: {{ elasticsearch.plugin.cloud_aws.access_key }}
+    secret_key: {{ elasticsearch.plugin.cloud_aws.secret_key }}
   node:
     auto_attributes: true
 

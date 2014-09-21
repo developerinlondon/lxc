@@ -1,9 +1,10 @@
 {
   "variables": {
-    "base_es_ami": "ami-944ee6fc",
+    "base_es_ami": "ami-6613bb0e",
     "instance_type": "r3.large",
     "virtualisation": "hvm",
-    "es_version": "1.3.2"
+    "es_version": "1.3.2",
+    "environment": "uat"
   },
 
   "builders": [

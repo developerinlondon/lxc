@@ -40,8 +40,8 @@ ephemeral_start() {
     # NO STRIPING ON ANY VOLUMES!!!
     # for some reason, striping ephemeral volumes is slower than not striping.
     # [ ! -e "/dev/$VG_NAME/log" ] && /sbin/lvcreate -l40%VG -nlog "$VG_NAME"
-    [ ! -e "/dev/$VG_NAME/tmp" ] && /sbin/lvcreate -l50%VG -ntmp "$VG_NAME"
-    [ ! -e "/dev/$VG_NAME/cache" ] && /sbin/lvcreate -l50%VG -ncache "$VG_NAME"
+    [ ! -e "/dev/$VG_NAME/tmp" ] && /sbin/lvcreate -l30%VG -ntmp "$VG_NAME"
+    [ ! -e "/dev/$VG_NAME/cache" ] && /sbin/lvcreate -l30%VG -ncache "$VG_NAME"
 
     # Do /tmp
     /sbin/mkfs.xfs /dev/$VG_NAME/tmp
@@ -106,7 +106,7 @@ case "$1" in
   ;;
 
   *)
-  echo "Usage: /etc/init.d/ephemeral-mount {start|stop}"
+  echo "Usage: /etc/init.d/mount-ephemeral {start|stop}"
   exit 1
 esac
 

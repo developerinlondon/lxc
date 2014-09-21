@@ -15,9 +15,15 @@
           "volume_type": "gp2"
         },
         {
+          "device_name": "/dev/sde",
+          "delete_on_termination": true,
+          "volume_size": 20,
+          "volume_type": "gp2"
+        },
+        {
           "device_name": "/dev/sdf",
           "delete_on_termination": true,
-          "volume_size": 180,
+          "volume_size": 100,
           "volume_type": "gp2"
         }
       ],
@@ -45,8 +51,17 @@
     },
     {
       "type": "file",
-      "source": "provisioners/files/es-ext4-lvm-mount.sh",
-      "destination": "es-mount"
+      "source": "provisioners/files/mount-log-ext4-lvm.sh",
+      "destination": "mount-log"
+    },
+    {
+      "type": "shell",
+      "script": "provisioners/mount-log-ext4.sh"
+    },
+    {
+      "type": "file",
+      "source": "provisioners/files/mount-es-ext4-lvm.sh",
+      "destination": "mount-es"
     },
     {
       "type": "shell",

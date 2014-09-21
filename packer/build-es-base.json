@@ -11,13 +11,13 @@
         {
           "device_name": "/dev/sda1",
           "delete_on_termination": true,
-          "volume_size": 15,
+          "volume_size": 20,
           "volume_type": "gp2"
         },
         {
           "device_name": "/dev/sdf",
           "delete_on_termination": true,
-          "volume_size": 85,
+          "volume_size": 180,
           "volume_type": "gp2"
         }
       ],
@@ -42,6 +42,19 @@
     {
       "type": "shell",
       "script": "provisioners/mount-ephemeral.sh"
+    },
+    {
+      "type": "file",
+      "source": "provisioners/files/es-ext4-lvm-mount.sh",
+      "destination": "es-mount"
+    },
+    {
+      "type": "shell",
+      "script": "provisioners/mount-es-ext4.sh"
+    },
+    {
+      "type": "shell",
+      "script": "provisioners/install-base.sh"
     }
   ]
 }

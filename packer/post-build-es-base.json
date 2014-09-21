@@ -3,7 +3,7 @@
     {
       "type": "amazon-ebs",
       "region": "us-east-1",
-      "source_ami": "ami-c065cda8",
+      "source_ami": "ami-944ee6fc",
       "instance_type": "r3.large",
       "ssh_username": "ubuntu",
       "ami_name": "es-{{timestamp}}",
@@ -19,10 +19,6 @@
   ],
 
   "provisioners": [
-    {
-      "type": "shell",
-      "script": "provisioners/install-base.sh"
-    },
     {
       "type": "ansible-local",
       "playbook_file": "playbook/build-es.yml",

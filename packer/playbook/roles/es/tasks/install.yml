@@ -3,7 +3,7 @@
 - name: add elasticsearch 1.3 to sources
   tags: elasticsearch
   apt_repository:
-    repo: 'deb http://packages.elasticsearch.org/elasticsearch/1.3/debian stable main'
+    repo: 'deb {{ elasticsearch.deb.package }}'
     state: present
     update_cache: yes
 

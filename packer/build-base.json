@@ -1,10 +1,16 @@
 {
+  "variables": {
+    "base_source_ami": "ami-8827efe0",
+    "instance_type": "r3.large",
+    "virtualisation": "hvm"
+  },
+
   "builders": [
     {
       "type": "amazon-ebs",
       "region": "us-east-1",
-      "source_ami": "ami-8827efe0",
-      "instance_type": "r3.large",
+      "source_ami": "{{user `base_source_ami`}}",
+      "instance_type": "{{user `instance_type`}}",
       "ssh_username": "ubuntu",
       "ami_name": "ansible-{{timestamp}}",
       "ami_block_device_mappings": [
@@ -26,8 +32,8 @@
         "Release": "14.04",
         "Name": "ansible-base",
         "Ansible_Version": "Latest",
-        "Instance_Type" : "r3.large",
-        "Virtualisation": "hvm"
+        "Instance_Type" : "{{user `instance_type`}}",
+        "Virtualisation": "{{user `virtualisation`}}"
       }
     }
   ],

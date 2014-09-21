@@ -1,19 +1,26 @@
 {
+  "variables": {
+    "base_es_ami": "ami-944ee6fc",
+    "instance_type": "r3.large",
+    "virtualisation": "hvm",
+    "es_version": "1.3.2"
+  },
+
   "builders": [
     {
       "type": "amazon-ebs",
       "region": "us-east-1",
-      "source_ami": "ami-944ee6fc",
-      "instance_type": "r3.large",
+      "source_ami": "{{user `base_es_ami`}}",
+      "instance_type": "{{user `instance_type`}}",
       "ssh_username": "ubuntu",
       "ami_name": "es-{{timestamp}}",
       "tags" : {
         "OS_Version": "Ubuntu",
         "Release": "14.04",
         "Name": "es-base",
-        "Instance_Type" : "r3.large",
-        "Virtualisation": "hvm",
-        "environment": "uat"
+        "Instance_Type" : "{{user `instance_type`}}",
+        "Virtualisation": "{{user `virtualisation`}}",
+        "environment": "{{user `environment`}}"
       }
     }
   ],

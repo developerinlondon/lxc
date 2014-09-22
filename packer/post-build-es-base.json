@@ -1,6 +1,6 @@
 {
   "variables": {
-    "base_es_ami": "ami-6613bb0e",
+    "base_es_ami": "ami-b415bddc",
     "instance_type": "r3.large",
     "virtualisation": "hvm",
     "es_version": "1.3.2",

@@ -1,5 +1,5 @@
 {
-  "Description" : "AWS CloudFormation Template for ElasticSearch: Simple template that will create a scalable ElasticSearch cluster with ec2 discovery behind an ELB.  You must have permissions to create IAM roles to use this template",
+  "Description" : "AWS CloudFormation Template for ElasticSearch: Simple template that will create a scalable ElasticSearch cluster with ec2 discovery behind an ELB.",
 
   "Parameters" : {
 
@@ -39,7 +39,7 @@
       "MaxLength": "255",
       "AllowedPattern" : "[\\x20-\\x7E]*",
       "ConstraintDescription" : "can contain only ASCII characters.",
-      "Default": "ami-182d8570"
+      "Default": "ami-8c16bee4"
     },
 
     "ClusterSize" : {
@@ -76,7 +76,7 @@
         "MaxSize" : "10",
         "DesiredCapacity" : { "Ref" : "ClusterSize" },
         "LoadBalancerNames" : [ { "Ref" : "ElasticLoadBalancer" } ],
-        "Tags" : [ { "Key" : "environment", "Value" : "uat", "PropagateAtLaunch" : "true" } ]
+        "Tags" : [ { "Key" : "environment", "Value" : { "Ref" : "AWS::StackName" }, "PropagateAtLaunch" : "true" } ]
       }
     },
 

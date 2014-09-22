@@ -31,7 +31,6 @@
       "ConstraintDescription": "must be a valid IP CIDR range of the form x.x.x.x/x."
     },
 
-
     "InstanceId": {
       "Description" : "Id of the instance to use",
       "Type": "String",
@@ -39,7 +38,7 @@
       "MaxLength": "255",
       "AllowedPattern" : "[\\x20-\\x7E]*",
       "ConstraintDescription" : "can contain only ASCII characters.",
-      "Default": "ami-8c16bee4"
+      "Default": "ami-104be078"
     },
 
     "ClusterSize" : {
@@ -51,6 +50,48 @@
   },
 
   "Resources" : {
+
+    "ElasticSearchDiscoveryRole" : {
+      "Type" : "AWS::IAM::Role",
+      "Properties" : {
+        "AssumeRolePolicyDocument" : {
+          "Version" : "2012-10-17",
+          "Statement" : [ {
+            "Effect" : "Allow",
+            "Principal" : {
+              "Service" : [ "ec2.amazonaws.com" ]
+            },
+            "Action" : [ "sts:AssumeRole" ]
+          } ]
+        },
+        "Path" : "/"
+      }
+    },
+
+    "ElasticSearchRolePolicies" : {
+      "Type" : "AWS::IAM::Policy",
+      "Properties" : {
+        "PolicyName" : "esdicovery",
+        "PolicyDocument": {
+          "Version" : "2012-10-17",
+          "Statement": [ {
+              "Effect": "Allow",
+              "Action": "ec2:Describe*",
+              "Resource": "*"
+          } ]
+        },
+        "Roles": [ { "Ref": "ElasticSearchDiscoveryRole" } ]
+      }
+    },
+
+    "ElasticSearchInstanceProfile" : {
+      "Type": "AWS::IAM::InstanceProfile",
+      "Properties": {
+        "Path": "/",
+        "Roles": [ { "Ref": "ElasticSearchDiscoveryRole" } ]
+      }
+    },
+
 
     "ElasticLoadBalancer" : {
       "Type" : "AWS::ElasticLoadBalancing::LoadBalancer",
@@ -87,7 +128,9 @@
         "ImageId" : { "Ref" : "InstanceId" },
         "InstanceType"   : { "Ref" : "InstanceType" },
         "SecurityGroups" : [ {"Ref" : "ElasticSearchSecurityGroup"} ],
-        "KeyName"        : { "Ref" : "KeyName" }
+        "KeyName"        : { "Ref" : "KeyName" },
+        "IamInstanceProfile" : { "Ref" : "ElasticSearchInstanceProfile" },
+        "UserData" : { "Fn::Base64": { "Fn::Join": [ "", [ ] ] } }
       }
     },
 
@@ -106,7 +149,7 @@
 
   "Outputs" : {
     "ElasticSearchServer" : {
-      "Value" : { "Fn::Join" : ["", ["http://", { "Fn::GetAtt" : [ "ElasticLoadBalancer", "DNSName" ]}]] },
+      "Value" : { "Fn::Join" : ["", ["http://", { "Fn::GetAtt" : [ "ElasticLoadBalancer", "DNSName" ]},":9200"]] },
       "Description" : "URL for ElasticSearch endpoint"
     }
   }

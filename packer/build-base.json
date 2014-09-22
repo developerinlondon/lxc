@@ -41,8 +41,8 @@
   "provisioners": [
     {
       "type": "file",
-      "source": "provisioners/files/ephemeral-mount.sh",
-      "destination": "ephemeral-mount"
+      "source": "provisioners/files/mount-ephemeral.sh",
+      "destination": "mount-ephemeral"
     },
     {
       "type": "shell",

@@ -36,7 +36,7 @@ case "$1" in
       # Do /var/lib/elasticsearch
       /sbin/mkfs -t ext4 /dev/$VG_NAME/data
       /bin/mkdir -p /var/lib/elasticsearch
-      [ -z "$(mount | grep " on /var/lib/elasticsearchc ")" ] && rm -rf /var/lib/elasticsearch/*
+      [ -z "$(mount | grep " on /var/lib/elasticsearch")" ] && rm -rf /var/lib/elasticsearch/*
       /bin/mount /dev/$VG_NAME/data /var/lib/elasticsearch
       /bin/chmod 755 /var/lib/elasticsearch
 

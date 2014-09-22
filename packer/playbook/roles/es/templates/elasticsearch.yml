@@ -18,6 +18,7 @@ cloud:
   node:
     auto_attributes: true
 
+
 discovery:
   type: ec2
   zen.ping.multicast.enabled: false

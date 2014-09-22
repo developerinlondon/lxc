@@ -19,19 +19,13 @@
         {
           "device_name": "/dev/sda1",
           "delete_on_termination": true,
-          "volume_size": 20,
+          "volume_size": 10,
           "volume_type": "gp2"
         },
         {
           "device_name": "/dev/sde",
           "delete_on_termination": true,
-          "volume_size": 20,
-          "volume_type": "gp2"
-        },
-        {
-          "device_name": "/dev/sdf",
-          "delete_on_termination": true,
-          "volume_size": "{{user `es_data_volume_size`}}",
+          "volume_size": 10,
           "volume_type": "gp2"
         }
       ],
@@ -50,12 +44,12 @@
   "provisioners": [
     {
       "type": "file",
-      "source": "provisioners/files/ephemeral-mount.sh",
-      "destination": "ephemeral-mount"
+      "source": "provisioners/files/mount-ephemeral-es.sh",
+      "destination": "mount-ephemeral-es"
     },
     {
       "type": "shell",
-      "script": "provisioners/mount-ephemeral.sh"
+      "script": "provisioners/mount-ephemeral-es.sh"
     },
     {
       "type": "file",
@@ -66,15 +60,7 @@
       "type": "shell",
       "script": "provisioners/mount-log-ext4.sh"
     },
-    {
-      "type": "file",
-      "source": "provisioners/files/mount-es-ext4-lvm.sh",
-      "destination": "mount-es"
-    },
-    {
-      "type": "shell",
-      "script": "provisioners/mount-es-ext4.sh"
-    },
+
     {
       "type": "shell",
       "script": "provisioners/install-base.sh"

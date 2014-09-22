@@ -1,0 +1,9 @@
+---
+
+- name: install monit
+  tags: monit
+  apt: state=latest force=yes pkg=monit
+
+- name: copy over the custom config file
+  tags: monit
+  template: src=monitrc.j2 dest=/etc/monit/monitrc

@@ -53,8 +53,7 @@
 
     "ClusterSize" : {
       "Description" : "Number of ElasticSearch instances to launch",
-      "Type" : "Number",
-      "Default" : "3"
+      "Type" : "Number"
     }
 
   },

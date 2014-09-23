@@ -14,5 +14,9 @@
   {
     "ParameterKey": "InstanceType",
     "ParameterValue": "r3.4xlarge"
+  },
+  {
+    "ParameterKey": "ClusterSize",
+    "ParameterValue": "2"
   }
 ]

@@ -187,29 +187,28 @@
       "Properties" : {
         "GroupDescription" : "Enable ElasticSearch access",
         "SecurityGroupIngress" : [
-          {
-            "IpProtocol" : "tcp", "FromPort" : "9200", "ToPort" : "9200", "CidrIp" : "0.0.0.0/0"},
-          {
-            "IpProtocol" : "tcp",
-            "FromPort" : "9300",
-            "ToPort" : "9300",
-            "SourceSecurityGroupId": {
-              "Fn::GetAtt": [
-                "ElasticSearchSecurityGroup",
-                "GroupId"
-              ]
-            }
-          },
-
+          {"IpProtocol" : "tcp", "FromPort" : "9200", "ToPort" : "9200", "CidrIp" : "0.0.0.0/0"},
           {"IpProtocol" : "tcp", "FromPort" : "22", "ToPort" : "22", "CidrIp" : { "Ref" : "SSHLocation"}}
         ]
       }
+    },
+
+
+    "SGBaseIngress": {
+        "Type": "AWS::EC2::SecurityGroupIngress",
+        "Properties": {
+            "GroupName": { "Ref": "ElasticSearchSecurityGroup" },
+            "IpProtocol": "tcp",
+            "FromPort": "9300",
+            "ToPort": "9300",
+            "SourceSecurityGroupName": { "Ref": "ElasticSearchSecurityGroup" }
+        }
     }
   },
 
   "Outputs" : {
     "ElasticSearchServer" : {
-      "Value" : { "Fn::Join" : ["", ["http://", { "Fn::GetAtt" : [ "ElasticLoadBalancer", "DNSName" ]},":9200"]] },
+      "Value" : { "Fn::Join" : ["", ["http://", { "Ref" : "Environment"}, ".es.cronycle.net:9200"]] },
       "Description" : "URL for ElasticSearch endpoint"
     }
   }

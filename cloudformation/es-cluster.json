@@ -1,5 +1,5 @@
 {
-  "Description" : "AWS CloudFormation Template for ElasticSearch: Simple template that will create a scalable ElasticSearch cluster with ec2 discovery behind an ELB.",
+  "Description" : "Cronycle ES Cluster",
 
   "Parameters" : {
 
@@ -12,7 +12,17 @@
       "ConstraintDescription" : "can contain only ASCII characters.",
       "Default": "mesos"
     },
+    "Environment" : {
+      "Default": "uat",
+      "Type" : "String",
+      "Description" : "The Environment for the current cluster"
+    },
 
+    "HostedZone" : {
+      "Default": "cronycle.net",
+      "Type" : "String",
+      "Description" : "The DNS name of an existing Amazon Route 53 hosted zone"
+    },
     "InstanceType" : {
       "Description" : "ElasticSearch Node",
       "Type" : "String",
@@ -31,14 +41,14 @@
       "ConstraintDescription": "must be a valid IP CIDR range of the form x.x.x.x/x."
     },
 
-    "InstanceId": {
+    "BaseImage": {
       "Description" : "Id of the instance to use",
       "Type": "String",
       "MinLength": "1",
       "MaxLength": "255",
       "AllowedPattern" : "[\\x20-\\x7E]*",
       "ConstraintDescription" : "can contain only ASCII characters.",
-      "Default": "ami-104be078"
+      "Default": "ami-c05df6a8"
     },
 
     "ClusterSize" : {
@@ -51,47 +61,55 @@
 
   "Resources" : {
 
-    "ElasticSearchDiscoveryRole" : {
-      "Type" : "AWS::IAM::Role",
+    "IAMUser" : {
+      "Type" : "AWS::IAM::User",
       "Properties" : {
-        "AssumeRolePolicyDocument" : {
-          "Version" : "2012-10-17",
-          "Statement" : [ {
-            "Effect" : "Allow",
-            "Principal" : {
-              "Service" : [ "ec2.amazonaws.com" ]
+        "Policies" : [{
+          "PolicyName" : "IAMAccess",
+          "PolicyDocument" : {
+            "Statement": [ {
+                "Effect": "Allow",
+                "Action": "ec2:Describe*",
+                "Resource": "*"
+            } ]
+          }
+        }]
+      }
+    },
+
+    "HostKeys" : {
+      "Type" : "AWS::IAM::AccessKey",
+      "Properties" : {
+        "UserName" : { "Ref" : "IAMUser" }
+      }
+    },
+
+
+    "DNSRecord" : {
+      "Type" : "AWS::Route53::RecordSetGroup",
+      "Properties" : {
+        "HostedZoneName" : { "Fn::Join" : [ "", [{"Ref" : "HostedZone"}, "." ]]},
+        "Comment" : "A record alias ",
+        "RecordSets" : [
+            {
+              "Name" : { "Fn::Join" : [ "", [ { "Ref" : "Environment" }, ".es.cronycle.net" ]]},
+              "Type" : "A",
+              "AliasTarget" : {
+                  "HostedZoneId" : { "Fn::GetAtt" : ["ElasticLoadBalancer", "CanonicalHostedZoneNameID"] },
+                  "DNSName" : { "Fn::GetAtt" : ["ElasticLoadBalancer","CanonicalHostedZoneName"] }
+              }
             },
-            "Action" : [ "sts:AssumeRole" ]
-          } ]
-        },
-        "Path" : "/"
+            {
+              "Name" : { "Fn::Join" : [ "", [ "*.", { "Ref" : "Environment" }, ".es.cronycle.net" ]]},
+              "Type" : "A",
+              "AliasTarget" : {
+                  "HostedZoneId" : { "Fn::GetAtt" : ["ElasticLoadBalancer", "CanonicalHostedZoneNameID"] },
+                  "DNSName" : { "Fn::GetAtt" : ["ElasticLoadBalancer","CanonicalHostedZoneName"] }
+              }
+            }
+          ]
       }
     },
-
-    "ElasticSearchRolePolicies" : {
-      "Type" : "AWS::IAM::Policy",
-      "Properties" : {
-        "PolicyName" : "esdicovery",
-        "PolicyDocument": {
-          "Version" : "2012-10-17",
-          "Statement": [ {
-              "Effect": "Allow",
-              "Action": "ec2:Describe*",
-              "Resource": "*"
-          } ]
-        },
-        "Roles": [ { "Ref": "ElasticSearchDiscoveryRole" } ]
-      }
-    },
-
-    "ElasticSearchInstanceProfile" : {
-      "Type": "AWS::IAM::InstanceProfile",
-      "Properties": {
-        "Path": "/",
-        "Roles": [ { "Ref": "ElasticSearchDiscoveryRole" } ]
-      }
-    },
-
 
     "ElasticLoadBalancer" : {
       "Type" : "AWS::ElasticLoadBalancing::LoadBalancer",
@@ -117,7 +135,9 @@
         "MaxSize" : "10",
         "DesiredCapacity" : { "Ref" : "ClusterSize" },
         "LoadBalancerNames" : [ { "Ref" : "ElasticLoadBalancer" } ],
-        "Tags" : [ { "Key" : "environment", "Value" : { "Ref" : "AWS::StackName" }, "PropagateAtLaunch" : "true" } ]
+        "Tags" : [
+          { "Key" : "Name", "Value" : { "Ref" : "AWS::StackName" }, "PropagateAtLaunch" : "true" }
+        ]
       }
     },
 
@@ -125,12 +145,40 @@
       "Type": "AWS::AutoScaling::LaunchConfiguration",
 
       "Properties": {
-        "ImageId" : { "Ref" : "InstanceId" },
+        "ImageId" : { "Ref" : "BaseImage" },
         "InstanceType"   : { "Ref" : "InstanceType" },
         "SecurityGroups" : [ {"Ref" : "ElasticSearchSecurityGroup"} ],
         "KeyName"        : { "Ref" : "KeyName" },
-        "IamInstanceProfile" : { "Ref" : "ElasticSearchInstanceProfile" },
-        "UserData" : { "Fn::Base64": { "Fn::Join": [ "", [ ] ] } }
+        "UserData" : { "Fn::Base64": { "Fn::Join": [ "", [
+          "#cloud-config\n",
+          "---\n",
+          "byobu_by_default: system\n",
+          "write_files:\n",
+          "- path: /etc/elasticsearch/elasticsearch.yml\n",
+          "  permissions: 0644\n",
+          "  owner: root:root\n",
+          "  content: |\n",
+          "    cluster:\n",
+          "      name: ",{ "Ref" : "AWS::StackName" },"\n",
+          "    path:\n",
+          "      work: /tmp\n",
+          "    plugin:\n",
+          "      mandatory: cloud-aws\n",
+          "    cloud:\n",
+          "      aws:\n",
+          "        access_key: ",{ "Ref" : "HostKeys" },"\n",
+          "        secret_key: ",{"Fn::GetAtt": ["HostKeys", "SecretAccessKey"]},"\n",
+          "      node:\n",
+          "        auto_attributes: true\n",
+          "    discovery:\n",
+          "      type: ec2\n",
+          "      zen.ping.multicast.enabled: false\n",
+          "      host_type: private_ip\n",
+          "      ec2:\n",
+          "        group: ",{ "Ref" : "ElasticSearchSecurityGroup" },"\n",
+          "        tag:\n",
+          "          Name: ",{ "Ref" : "AWS::StackName" },"\n"
+        ] ] } }
       }
     },
 
@@ -139,8 +187,20 @@
       "Properties" : {
         "GroupDescription" : "Enable ElasticSearch access",
         "SecurityGroupIngress" : [
-          {"IpProtocol" : "tcp", "FromPort" : "9200", "ToPort" : "9200", "CidrIp" : "0.0.0.0/0"},
-          {"IpProtocol" : "tcp", "FromPort" : "9300", "ToPort" : "9300", "CidrIp" : "0.0.0.0/0"},
+          {
+            "IpProtocol" : "tcp", "FromPort" : "9200", "ToPort" : "9200", "CidrIp" : "0.0.0.0/0"},
+          {
+            "IpProtocol" : "tcp",
+            "FromPort" : "9300",
+            "ToPort" : "9300",
+            "SourceSecurityGroupId": {
+              "Fn::GetAtt": [
+                "ElasticSearchSecurityGroup",
+                "GroupId"
+              ]
+            }
+          },
+
           {"IpProtocol" : "tcp", "FromPort" : "22", "ToPort" : "22", "CidrIp" : { "Ref" : "SSHLocation"}}
         ]
       }

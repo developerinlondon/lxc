@@ -20,5 +20,5 @@
 - name: copy the custom elasticSearch logging configuration
   template: src=logging.yml dest={{ elasticsearch.path.logging }}
 
-- name: copy over the monit configuration file
+- name: copy the monit configuration file
   template: src=monit.conf.j2 dest=/etc/monit/conf.d/elasticsearch.conf

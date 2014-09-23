@@ -17,11 +17,20 @@
     - language-pack-en
     - git
     - git-core
-    - byobu
-    - zsh
+#    - byobu
+#    - zsh
     - htop
     - lynx-cur
     - ntp
+
+# - name: start byobu at start
+#   command: "byobu-enable"
+
+# - name: Add zsh to root and ubuntu
+#   shell: chsh -s /bin/zsh {{ item }}
+#   with_items:
+#     - root
+#     - ubuntu
 
 - name: Fix locale.
   command: /usr/sbin/update-locale

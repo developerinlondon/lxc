@@ -2,16 +2,16 @@
 
 # Install Paramedic dashboard
 - name: "Install Paramedic dashboard"
-  command: {{ elasticsearch.plugin.command }} -install {{ elasticsearch.plugin.paramedic.name }} creates={{ elasticsearch.plugin.paramedic.index }}
+  command: "{{ elasticsearch.plugin.command }} -install {{ elasticsearch.plugin.paramedic.name }} creates={{ elasticsearch.plugin.paramedic.index }}"
 
 # Install Head
 - name: "Install HEAD plugin"
-  command: {{ elasticsearch.plugin.command }} -install {{ elasticsearch.plugin.head.name }} creates={{ elasticsearch.plugin.head.index }}
+  command: "{{ elasticsearch.plugin.command }} -install {{ elasticsearch.plugin.head.name }} creates={{ elasticsearch.plugin.head.index }}"
 
 # Install Marvel
 - name: "Install Marvel plugin"
-  command: {{ elasticsearch.plugin.command }} -install {{ elasticsearch.plugin.marvel.name }} creates={{ elasticsearch.plugin.marvel.index }}
+  command: "{{ elasticsearch.plugin.command }} -install {{ elasticsearch.plugin.marvel.name }} creates={{ elasticsearch.plugin.marvel.index }}"
 
 # Install cloud-aws
 - name: "Install cloud-aws plugin"
-  command: {{ elasticsearch.plugin.command }} -install {{ elasticsearch.plugin.cloud_aws.name }} creates={{ elasticsearch.plugin.cloud_aws.jar }}
+  command: "{{ elasticsearch.plugin.command }} -install {{ elasticsearch.plugin.cloud_aws.name }} creates={{ elasticsearch.plugin.cloud_aws.jar }}"

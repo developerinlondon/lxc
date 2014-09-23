@@ -13,11 +13,13 @@
       "Default": "mesos"
     },
     "Environment" : {
-      "Default": "uat",
       "Type" : "String",
       "Description" : "The Environment for the current cluster"
     },
-
+    "ClusterName" : {
+      "Type" : "String",
+      "Description" : "The Name for the current cluster"
+    },
     "HostedZone" : {
       "Default": "cronycle.net",
       "Type" : "String",
@@ -47,8 +49,7 @@
       "MinLength": "1",
       "MaxLength": "255",
       "AllowedPattern" : "[\\x20-\\x7E]*",
-      "ConstraintDescription" : "can contain only ASCII characters.",
-      "Default": "ami-c05df6a8"
+      "ConstraintDescription" : "can contain only ASCII characters."
     },
 
     "ClusterSize" : {
@@ -92,7 +93,7 @@
         "Comment" : "A record alias ",
         "RecordSets" : [
             {
-              "Name" : { "Fn::Join" : [ "", [ { "Ref" : "Environment" }, ".es.cronycle.net" ]]},
+              "Name" : { "Fn::Join" : [ "", [ { "Ref" : "Environment" }, ".", { "Ref" : "ClusterName" }, ".cronycle.net" ]]},
               "Type" : "A",
               "AliasTarget" : {
                   "HostedZoneId" : { "Fn::GetAtt" : ["ElasticLoadBalancer", "CanonicalHostedZoneNameID"] },
@@ -100,7 +101,7 @@
               }
             },
             {
-              "Name" : { "Fn::Join" : [ "", [ "*.", { "Ref" : "Environment" }, ".es.cronycle.net" ]]},
+              "Name" : { "Fn::Join" : [ "", [ "*.", { "Ref" : "Environment" }, ".", { "Ref" : "ClusterName" }, ".cronycle.net" ]]},
               "Type" : "A",
               "AliasTarget" : {
                   "HostedZoneId" : { "Fn::GetAtt" : ["ElasticLoadBalancer", "CanonicalHostedZoneNameID"] },
@@ -136,7 +137,7 @@
         "DesiredCapacity" : { "Ref" : "ClusterSize" },
         "LoadBalancerNames" : [ { "Ref" : "ElasticLoadBalancer" } ],
         "Tags" : [
-          { "Key" : "Name", "Value" : { "Ref" : "AWS::StackName" }, "PropagateAtLaunch" : "true" }
+          { "Key" : "Name", "Value" : { "Fn::Join" : [ "", [ { "Ref" : "Environment" }, ".", { "Ref" : "ClusterName" } ]]}, "PropagateAtLaunch" : "true" }
         ]
       }
     },
@@ -159,7 +160,7 @@
           "  owner: root:root\n",
           "  content: |\n",
           "    cluster:\n",
-          "      name: ",{ "Ref" : "AWS::StackName" },"\n",
+          "      name: ",{ "Ref" : "Environment" }, ".", { "Ref" : "ClusterName" },"\n",
           "    path:\n",
           "      work: /tmp\n",
           "    plugin:\n",
@@ -177,7 +178,7 @@
           "      ec2:\n",
           "        group: ",{ "Ref" : "ElasticSearchSecurityGroup" },"\n",
           "        tag:\n",
-          "          Name: ",{ "Ref" : "AWS::StackName" },"\n"
+          "          Name: ",{ "Ref" : "Environment" }, ".", { "Ref" : "ClusterName" },"\n"
         ] ] } }
       }
     },
@@ -208,8 +209,24 @@
 
   "Outputs" : {
     "ElasticSearchServer" : {
-      "Value" : { "Fn::Join" : ["", ["http://", { "Ref" : "Environment"}, ".es.cronycle.net:9200"]] },
+      "Value" : { "Fn::Join" : ["", ["http://", { "Ref" : "Environment"}, ".", { "Ref" : "ClusterName" }, ".cronycle.net:9200"]] },
       "Description" : "URL for ElasticSearch endpoint"
+    },
+    "ElasticSearchServerHealth" : {
+      "Value" : { "Fn::Join" : ["", ["http://", { "Ref" : "Environment"}, ".", { "Ref" : "ClusterName" }, ".cronycle.net:9200/_cluster/health"]] },
+      "Description" : "URL for ElasticSearch Health endpoint"
+    },
+    "ElasticSearchServerHead" : {
+      "Value" : { "Fn::Join" : ["", ["http://", { "Ref" : "Environment"}, ".", { "Ref" : "ClusterName" }, ".cronycle.net:9200/_plugin/head"]] },
+      "Description" : "URL for ElasticSearch Head Plugin"
+    },
+    "ElasticSearchServerMarvel" : {
+      "Value" : { "Fn::Join" : ["", ["http://", { "Ref" : "Environment"}, ".", { "Ref" : "ClusterName" }, ".cronycle.net:9200/_plugin/marvel"]] },
+      "Description" : "URL for ElasticSearch Marvel Plugin"
+    },
+    "ElasticSearchServerParamedic" : {
+      "Value" : { "Fn::Join" : ["", ["http://", { "Ref" : "Environment"}, ".", { "Ref" : "ClusterName" }, ".cronycle.net:9200/_plugin/paramedic"]] },
+      "Description" : "URL for ElasticSearch Paramedic Plugin"
     }
   }
 }

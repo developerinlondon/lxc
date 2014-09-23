@@ -1,0 +1,14 @@
+[
+  {
+    "ParameterKey": "Environment",
+    "ParameterValue": "uat"
+  },
+  {
+    "ParameterKey": "ClusterName",
+    "ParameterValue": "es"
+  },
+  {
+    "ParameterKey": "BaseImage",
+    "ParameterValue": "ami-c05df6a8"
+  }
+]

@@ -6,6 +6,7 @@
     - monit
     - ansible
     - aws
+    - cloudwatch_monitoring
 
     # - lxc
     # - lcm

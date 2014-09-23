@@ -13,6 +13,6 @@
   },
   {
     "ParameterKey": "InstanceType",
-    "ParameterValue": "r3.large"
+    "ParameterValue": "r3.4xlarge"
   }
 ]

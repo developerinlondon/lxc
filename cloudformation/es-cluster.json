@@ -28,8 +28,7 @@
     "InstanceType" : {
       "Description" : "ElasticSearch Node",
       "Type" : "String",
-      "Default" : "r3.large",
-      "AllowedValues" : [ "r3.large", "t1.micro", "m1.small", "m1.large", "m1.xlarge", "m2.xlarge", "m2.2xlarge", "m2.4xlarge","m3.xlarge", "m3.2xlarge", "c1.medium", "c1.xlarge", "cc1.4xlarge", "r3.4xlarge"],
+      "AllowedValues" : [ "r3.4xlarge", "r3.large", "t1.micro", "m1.small", "m1.large", "m1.xlarge", "m2.xlarge", "m2.2xlarge", "m2.4xlarge","m3.xlarge", "m3.2xlarge", "c1.medium", "c1.xlarge", "cc1.4xlarge", "r3.4xlarge"],
       "ConstraintDescription" : "must be a valid EC2 instance type."
     },
 
@@ -62,11 +61,11 @@
 
   "Resources" : {
 
-    "IAMUser" : {
+    "EC2IAMUser" : {
       "Type" : "AWS::IAM::User",
       "Properties" : {
         "Policies" : [{
-          "PolicyName" : "IAMAccess",
+          "PolicyName" : "EC2IAMAccess",
           "PolicyDocument" : {
             "Statement": [ {
                 "Effect": "Allow",
@@ -78,10 +77,37 @@
       }
     },
 
-    "HostKeys" : {
+    "EC2HostKeys" : {
       "Type" : "AWS::IAM::AccessKey",
       "Properties" : {
-        "UserName" : { "Ref" : "IAMUser" }
+        "UserName" : { "Ref" : "EC2IAMUser" }
+      }
+    },
+
+    "CWMIAMUser" : {
+      "Type" : "AWS::IAM::User",
+      "Properties" : {
+        "Policies" : [{
+          "PolicyName" : "CWMIAMAccess",
+          "PolicyDocument" : {
+            "Statement": [ {
+              "Effect": "Allow",
+              "Action": [
+                "cloudwatch:*"
+              ],
+              "Resource": [
+                "*"
+              ]
+            } ]
+          }
+        }]
+      }
+    },
+
+    "CWMHostKeys" : {
+      "Type" : "AWS::IAM::AccessKey",
+      "Properties" : {
+        "UserName" : { "Ref" : "CWMIAMUser" }
       }
     },
 
@@ -167,8 +193,8 @@
           "      mandatory: cloud-aws\n",
           "    cloud:\n",
           "      aws:\n",
-          "        access_key: ",{ "Ref" : "HostKeys" },"\n",
-          "        secret_key: ",{"Fn::GetAtt": ["HostKeys", "SecretAccessKey"]},"\n",
+          "        access_key: ",{ "Ref" : "EC2HostKeys" },"\n",
+          "        secret_key: ",{"Fn::GetAtt": ["EC2HostKeys", "SecretAccessKey"]},"\n",
           "      node:\n",
           "        auto_attributes: true\n",
           "    discovery:\n",
@@ -178,7 +204,13 @@
           "      ec2:\n",
           "        group: ",{ "Ref" : "ElasticSearchSecurityGroup" },"\n",
           "        tag:\n",
-          "          Name: ",{ "Ref" : "Environment" }, ".", { "Ref" : "ClusterName" },"\n"
+          "          Name: ",{ "Ref" : "Environment" }, ".", { "Ref" : "ClusterName" },"\n",
+          "- path: /etc/aws-scripts-mon/awscreds.template\n",
+          "  permissions: 0644\n",
+          "  owner: root:root\n",
+          "  content: |\n",
+          "    AWSAccessKeyId=",{ "Ref" : "CWMHostKeys" },"\n",
+          "    AWSSecretKey=",{"Fn::GetAtt": ["CWMHostKeys", "SecretAccessKey"]},"\n"
         ] ] } }
       }
     },

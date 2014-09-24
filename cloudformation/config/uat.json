@@ -13,10 +13,14 @@
   },
   {
     "ParameterKey": "InstanceType",
-    "ParameterValue": "r3.4xlarge"
+    "ParameterValue": "r3.large"
   },
   {
     "ParameterKey": "ClusterSize",
     "ParameterValue": "3"
+  },
+  {
+    "ParameterKey": "KeyName",
+    "ParameterValue": "cronycle-cluster"
   }
 ]

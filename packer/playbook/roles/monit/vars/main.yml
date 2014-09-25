@@ -1,0 +1,5 @@
+---
+monit:
+  machine: 'es'
+  environment: 'uat'
+  email: dev@cronycle.com

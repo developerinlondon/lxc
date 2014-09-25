@@ -1,0 +1,5 @@
+{
+  "base_source_ami": "ami-8827efe0",
+  "instance_type": "r3.large",
+  "virtualisation": "hvm"
+}

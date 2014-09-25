@@ -10,7 +10,7 @@ namespace :bakery do
   desc 'build an instance'
   task :build_instance do
     puts '--> building a new instance'
-    sh " aws ec2 run-instances --count=1 --key-name=mesos --instance-type=r3.large --image-id=ami-#{$1}"
+    sh " aws ec2 run-instances --count=1 --key-name=cronycle-cluster --instance-type=r3.large --image-id=ami-#{$1}"
   end
 
   desc 'bake and build'

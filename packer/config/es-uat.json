@@ -1,0 +1,11 @@
+{
+  "environment": "es-east-1",
+  "base_source_ami": "ami-8827efe0",
+  "instance_type": "r3.large",
+  "virtualisation": "hvm",
+  "environment": "uat",
+  "es_data_volume_size": "100",
+  "instance_type": "r3.large",
+  "base_es_ami": "ami-944ee6fc",
+  "es_version": "1.3.2"
+}

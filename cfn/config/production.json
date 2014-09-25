@@ -1,0 +1,26 @@
+[
+  {
+    "ParameterKey": "Environment",
+    "ParameterValue": "production"
+  },
+  {
+    "ParameterKey": "ClusterName",
+    "ParameterValue": "es"
+  },
+  {
+    "ParameterKey": "BaseImage",
+    "ParameterValue": "ami-321bb05a"
+  },
+  {
+    "ParameterKey": "InstanceType",
+    "ParameterValue": "r3.4xlarge"
+  },
+  {
+    "ParameterKey": "ClusterSize",
+    "ParameterValue": "3"
+  },
+  {
+    "ParameterKey": "KeyName",
+    "ParameterValue": "cronycle-cluster"
+  }
+]

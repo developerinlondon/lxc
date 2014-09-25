@@ -1,0 +1,27 @@
+- hosts: all
+  gather_facts: false
+  sudo: yes
+  roles:
+    - common
+    - monit
+    - ansible
+    - aws
+    - cloudwatch_monitoring
+
+    # - lxc
+    # - lcm
+    # - lwp
+    # - rvm
+
+    #- runit
+    #- docker
+
+    # - redis
+    # - nodejs
+    # - hipache
+
+    - oracle-jdk
+    - es
+
+    # - serf
+    # - gitreceive

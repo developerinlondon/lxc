@@ -9,32 +9,46 @@
 # - name: Upgrade all packages.
 #   apt: upgrade=yes
 
-- name: Install python-software-properties
-  apt: pkg=python-software-properties state=installed
+- name: Install useful packages.
+  apt: name={{ item }} state=installed force=yes
+  with_items:
+    - unzip
+    - ansible
+    - python-software-properties
+    - language-pack-en
+    - git
+    - git-core
+#    - byobu
+#    - zsh
+    - htop
+    - lynx-cur
+    - ntp
 
-- name: Install language pack
-  apt: pkg=language-pack-en state=installed
+# - name: start byobu at start
+#   command: "byobu-enable"
 
-- name: Install ntp
-  apt: pkg=ntp state=installed
-
-- name: Enable ntp startup.
-  service: name=ntp enabled=yes
-
-- name: Make sure it's running.
-  service: name=ntp state=started
-
-- name: Install lynx
-  apt: pkg=lynx-cur state=installed
-
-- name: Install htop
-  apt: pkg=htop state=installed
+# - name: Add zsh to root and ubuntu
+#   shell: chsh -s /bin/zsh {{ item }}
+#   with_items:
+#     - root
+#     - ubuntu
 
 - name: Fix locale.
   command: /usr/sbin/update-locale
 
+- name: Enable ntp at startup.
+  service: name=ntp enabled=yes
+
+- name: Make sure these are started
+  service: name={{ item }} state=started
+  with_items:
+    - ntp
+
+- name: Oh-My-Zsh
+  git: accept_hostkey=true repo=git://github.com/robbyrussell/oh-my-zsh.git dest=~/.oh-my-zsh
+
 - name: Install /etc/sudoers.tmp file.
-  action: template src=../files/sudoers dest=/etc/sudoers.tmp
+  template: src=../files/sudoers dest=/etc/sudoers.tmp
 
 - name: Set the permissions.
   file: path=/etc/sudoers.tmp owner=root group=root mode=0440
@@ -43,7 +57,7 @@
   shell: visudo -c -f /etc/sudoers.tmp && cp -f /etc/sudoers.tmp /etc/sudoers
 
 - name: Install new sshd config
-  action: template src=../files/sshd-config dest=/etc/ssh/sshd_config
+  template: src=../files/sshd-config dest=/etc/ssh/sshd_config
 
 - name: Make sure permissions are correct.
   file: path=/etc/ssh/sshd_config owner=root group=root mode=0644

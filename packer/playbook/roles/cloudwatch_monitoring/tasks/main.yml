@@ -1,0 +1,23 @@
+---
+
+- name: Install Perl Libraries
+  apt: name={{ item }} state=installed force=yes
+  with_items:
+    - libswitch-perl
+    - libsys-syslog-perl
+    - liblwp-protocol-https-perl
+
+- name: Download
+  get_url: url=http://ec2-downloads.s3.amazonaws.com/cloudwatch-samples/CloudWatchMonitoringScripts-v1.1.0.zip dest=/tmp/CloudWatchMonitoringScripts.zip
+
+- name: Unzip
+  unarchive: src=/tmp/CloudWatchMonitoringScripts.zip dest=/etc/
+
+- name: Delete Archive
+  file: path=/tmp/CloudWatchMonitoringScripts.zip state=absent
+
+- name: Copy the Aws Credentials File
+  template: src="awscreds.template.j2" dest="/etc/aws-scripts-mon/awscreds.template"
+
+- name: Add to Cron
+  lineinfile: dest=/etc/crontab insertafter=EOF line="* * * * * root /etc/aws-scripts-mon/mon-put-instance-data.pl --mem-util --mem-used --mem-avail --aws-credential-file=/etc/aws-scripts-mon/awscreds.template"

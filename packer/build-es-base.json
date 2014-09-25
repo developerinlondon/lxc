@@ -2,7 +2,9 @@
   "variables": {
     "base_source_ami": "ami-8827efe0",
     "instance_type": "r3.large",
-    "virtualisation": "hvm"
+    "virtualisation": "hvm",
+    "es_data_volume_size": "100",
+    "es_version": "1.3.2"
   },
 
   "builders": [
@@ -12,26 +14,27 @@
       "source_ami": "{{user `base_source_ami`}}",
       "instance_type": "{{user `instance_type`}}",
       "ssh_username": "ubuntu",
-      "ami_name": "ansible-{{timestamp}}",
+      "ami_name": "es-base-{{timestamp}}",
       "ami_block_device_mappings": [
         {
           "device_name": "/dev/sda1",
           "delete_on_termination": true,
-          "volume_size": 15,
+          "volume_size": 10,
           "volume_type": "gp2"
         },
         {
-          "device_name": "/dev/sdf",
+          "device_name": "/dev/sde",
           "delete_on_termination": true,
-          "volume_size": 85,
+          "volume_size": 10,
           "volume_type": "gp2"
         }
       ],
       "tags": {
         "OS_Version": "Ubuntu",
         "Release": "14.04",
-        "Name": "ansible-base",
+        "Name": "es-base",
         "Ansible_Version": "Latest",
+        "es-version": "{{user `es_version`}}",
         "Instance_Type" : "{{user `instance_type`}}",
         "Virtualisation": "{{user `virtualisation`}}"
       }
@@ -41,22 +44,23 @@
   "provisioners": [
     {
       "type": "file",
-      "source": "provisioners/files/mount-ephemeral.sh",
-      "destination": "mount-ephemeral"
+      "source": "provisioners/files/mount-ephemeral-es.sh",
+      "destination": "mount-ephemeral-es"
     },
     {
       "type": "shell",
-      "script": "provisioners/mount-ephemeral.sh"
+      "script": "provisioners/mount-ephemeral-es.sh"
     },
     {
       "type": "file",
-      "source": "provisioners/files/lxc-ext4-lvm-mount.sh",
-      "destination": "lxc-mount"
+      "source": "provisioners/files/mount-log-ext4-lvm.sh",
+      "destination": "mount-log"
     },
     {
       "type": "shell",
-      "script": "provisioners/mount-lxc-ext4.sh"
+      "script": "provisioners/mount-log-ext4.sh"
     },
+
     {
       "type": "shell",
       "script": "provisioners/install-base.sh"

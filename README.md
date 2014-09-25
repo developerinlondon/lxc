@@ -1,7 +1,7 @@
 adding a new instance on aws:
 
 ```
- aws ec2 run-instances --count=2 --user-data=user-data-lxc-ovs.sh --key-name=mesos --instance-type=r3.large --image-id=ami-4aa87722
+ aws ec2 run-instances --count=2 --user-data=user-data-lxc-ovs.sh --key-name=cronycle-cluster --instance-type=r3.large --image-id=ami-4aa87722
 ```
 
 references:

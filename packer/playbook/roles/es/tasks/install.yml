@@ -1,0 +1,27 @@
+---
+
+- name: add elasticsearch repository
+  tags: elasticsearch
+  apt_repository:
+    repo: 'deb {{ elasticsearch.deb.package }}'
+    state: present
+    update_cache: yes
+
+- name: install elasticsearch
+  tags: elasticsearch
+  apt: state=latest force=yes pkg=elasticsearch
+
+- name: install the elasticsearch service
+  service: name=elasticsearch enabled=yes state=started
+
+- name: copy the custom elasticSearch configuration
+  template: src=elasticsearch.yml dest={{ elasticsearch.path.config }}
+
+- name: copy the custom elasticSearch logging configuration
+  template: src=logging.yml dest={{ elasticsearch.path.logging }}
+
+- name: copy the monit configuration file
+  template: src=monit.conf.j2 dest=/etc/monit/conf.d/elasticsearch.conf
+
+- name: copy the custom motd
+  template: src=motd.j2 dest=/etc/motd

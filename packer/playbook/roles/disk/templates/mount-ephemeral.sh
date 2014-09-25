@@ -106,7 +106,7 @@ case "$1" in
   ;;
 
   *)
-  echo "Usage: /etc/init.d/ephemeral-mount {start|stop}"
+  echo "Usage: /etc/init.d/mount-ephemeral {start|stop}"
   exit 1
 esac
 

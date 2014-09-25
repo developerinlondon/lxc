@@ -1,0 +1,47 @@
+---
+
+- name: fix locales
+  tags: locale
+  shell: >
+    locale-gen en_US.UTF-8 && dpkg-reconfigure -fnoninteractive locales && update-locale LC_ALL="en_US.UTF-8" LANG="en_US.UTF-8" LANGUAGE="en_US" && touch ~/.locale_ok creates=~/.locale_ok
+
+- name: update apt cache
+  tags: update
+  action: apt update_cache=yes
+
+- name: upgrade OS
+  tags: update
+  action: apt upgrade=safe
+
+- name: install packages for Oracle JDK 7
+  tags: java
+  apt: pkg={{item}} state=latest
+  with_items:
+    - debconf
+    - debconf-utils
+
+- name: add webupd8team repo
+  apt_repository: repo="ppa:webupd8team/java"
+  tags: java
+
+- name: retrieve status of oracle licences
+  tags: java
+  shell: >
+    debconf-get-selections | grep -q {{item}} && echo -n 'yes' || echo -n 'no'
+  register: java_license_status
+  changed_when: False
+  with_items: java_ora_versions
+
+- name: accept oracle licenses
+  tags: java
+  shell: >
+    /bin/echo -e {{item.item}} shared/accepted-oracle-license-v1-1 select true | debconf-set-selections
+  when: item.stdout != "yes"
+  with_items: java_license_status.results
+
+- name: install Oracle JDK 7
+  tags: java
+  apt: pkg={{item}} state=latest update_cache=yes
+  with_items:
+    -  oracle-java7-installer
+    -  oracle-java7-set-default

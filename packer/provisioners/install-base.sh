@@ -14,5 +14,5 @@ sudo apt-get update -y
 sudo apt-get install -y --no-install-recommends ansible
 
 # overwrite the ansible hosts file
-rm -f /etc/ansible/hosts
-echo "localhost" > /etc/ansible/hosts
+# sudo rm -f /etc/ansible/hosts
+# sudo echo "localhost" > /etc/ansible/hosts

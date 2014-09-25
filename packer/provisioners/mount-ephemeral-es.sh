@@ -15,6 +15,6 @@ for module in dm-crypt aes rmd160; do
     sudo /sbin/modprobe "$module"
 done
 
-sudo mv mount-ephemeral /etc/init.d/
-sudo chmod +x /etc/init.d/mount-ephemeral
-sudo update-rc.d mount-ephemeral defaults 00
+sudo mv mount-ephemeral-es /etc/init.d/
+sudo chmod +x /etc/init.d/mount-ephemeral-es
+sudo update-rc.d mount-ephemeral-es defaults 00

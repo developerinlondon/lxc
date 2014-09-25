@@ -1,0 +1,28 @@
+cluster:
+  name: {{ elasticsearch.environment }}
+
+  # routing.allocation.awareness:
+  #   attributes: aws_availability_zone
+  #   force.aws_availability_zone.values: us-east-1a,us-east-1c,us-east-1d
+
+path:
+  work: {{ elasticsearch.path.tmp }}
+
+plugin:
+  mandatory: cloud-aws
+
+cloud:
+  aws:
+    access_key: {{ elasticsearch.plugin.cloud_aws.access_key }}
+    secret_key: {{ elasticsearch.plugin.cloud_aws.secret_key }}
+  node:
+    auto_attributes: true
+
+
+discovery:
+  type: ec2
+  zen.ping.multicast.enabled: false
+  host_type: private_ip
+  ec2:
+    tag:
+      environment: {{ elasticsearch.environment }}

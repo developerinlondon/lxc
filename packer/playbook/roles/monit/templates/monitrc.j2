@@ -1,0 +1,27 @@
+set daemon 60
+  with start delay 120
+
+set logfile syslog facility log_daemon
+
+set mailserver localhost
+
+set eventqueue
+    basedir /var/monit  # set the base directory where events will be stored
+#    slots 1000          # optionaly limit the queue size
+
+set mail-format {
+  from: monit@{{ monit.environment }}-{{ monit.machine }}
+  subject: $SERVICE $EVENT
+  message: Monit $ACTION $SERVICE at $DATE on $HOST: $DESCRIPTION.
+Yours sincerely,
+monit
+
+}
+
+set alert dev@cronycle.com NOT ON { action, instance, pid, ppid }
+
+set httpd port 3737
+  use address localhost
+  allow localhost
+
+include /etc/monit/conf.d/*.conf

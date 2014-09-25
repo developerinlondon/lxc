@@ -239,23 +239,23 @@
 
   "Outputs" : {
     "ElasticSearchServer" : {
-      "Value" : { "Fn::Join" : ["", ["http://", { "Ref" : "Environment"}, ".", { "Ref" : "ClusterName" }, ".cronycle.net:9200"]] },
+      "Value" : { "Fn::Join" : ["", ["http://", { "Ref" : "Environment"}, ".", { "Ref" : "ClusterName" }, ".", { "Ref" : "HostedZone" }, ":9200"]] },
       "Description" : "URL for ElasticSearch endpoint"
     },
     "ElasticSearchServerHealth" : {
-      "Value" : { "Fn::Join" : ["", ["http://", { "Ref" : "Environment"}, ".", { "Ref" : "ClusterName" }, ".cronycle.net:9200/_cluster/health?pretty"]] },
+      "Value" : { "Fn::Join" : ["", ["http://", { "Ref" : "Environment"}, ".", { "Ref" : "ClusterName" }, ".", { "Ref" : "HostedZone" }, ":9200/_cluster/health?pretty"]] },
       "Description" : "URL for ElasticSearch Health endpoint"
     },
     "ElasticSearchServerHead" : {
-      "Value" : { "Fn::Join" : ["", ["http://", { "Ref" : "Environment"}, ".", { "Ref" : "ClusterName" }, ".cronycle.net:9200/_plugin/head"]] },
+      "Value" : { "Fn::Join" : ["", ["http://", { "Ref" : "Environment"}, ".", { "Ref" : "ClusterName" }, ".", { "Ref" : "HostedZone" }, ":9200/_plugin/head"]] },
       "Description" : "URL for ElasticSearch Head Plugin"
     },
     "ElasticSearchServerMarvel" : {
-      "Value" : { "Fn::Join" : ["", ["http://", { "Ref" : "Environment"}, ".", { "Ref" : "ClusterName" }, ".cronycle.net:9200/_plugin/marvel"]] },
+      "Value" : { "Fn::Join" : ["", ["http://", { "Ref" : "Environment"}, ".", { "Ref" : "ClusterName" }, ".", { "Ref" : "HostedZone" }, ":9200/_plugin/marvel"]] },
       "Description" : "URL for ElasticSearch Marvel Plugin"
     },
     "ElasticSearchServerParamedic" : {
-      "Value" : { "Fn::Join" : ["", ["http://", { "Ref" : "Environment"}, ".", { "Ref" : "ClusterName" }, ".cronycle.net:9200/_plugin/paramedic"]] },
+      "Value" : { "Fn::Join" : ["", ["http://", { "Ref" : "Environment"}, ".", { "Ref" : "ClusterName" }, ".", { "Ref" : "HostedZone" }, ":9200/_plugin/paramedic"]] },
       "Description" : "URL for ElasticSearch Paramedic Plugin"
     }
   }

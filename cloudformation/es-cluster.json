@@ -9,7 +9,7 @@
       "MinLength": "1",
       "MaxLength": "255",
       "AllowedPattern" : "[\\x20-\\x7E]*",
-      "ConstraintDescription" : "can contain only ASCII characters.",
+      "ConstraintDescription" : "can contain only ASCII characters."
     },
     "Environment" : {
       "Type" : "String",
@@ -243,7 +243,7 @@
       "Description" : "URL for ElasticSearch endpoint"
     },
     "ElasticSearchServerHealth" : {
-      "Value" : { "Fn::Join" : ["", ["http://", { "Ref" : "Environment"}, ".", { "Ref" : "ClusterName" }, ".cronycle.net:9200/_cluster/health"]] },
+      "Value" : { "Fn::Join" : ["", ["http://", { "Ref" : "Environment"}, ".", { "Ref" : "ClusterName" }, ".cronycle.net:9200/_cluster/health?pretty"]] },
       "Description" : "URL for ElasticSearch Health endpoint"
     },
     "ElasticSearchServerHead" : {

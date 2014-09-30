@@ -1,45 +1,29 @@
-adding a new instance on aws:
+Install ElasticSearch
+=====================
 
-```
- aws ec2 run-instances --count=2 --user-data=user-data-lxc-ovs.sh --key-name=cronycle-cluster --instance-type=r3.large --image-id=ami-4aa87722
-```
+1. get a base ami image. (unless one already exists):
 
-references:
+  `packer build build-es-base.json`
 
-- http://blog.scottlowe.org/2013/05/07/using-gre-tunnels-with-open-vswitch/
-- http://s3hh.wordpress.com/2012/05/28/connecting-containers-on-several-hosts-with-open-vswitch/
+2. Put in the base image id in build-es-base.json to build a base-es image (for elasticSearch).
+
+3. build the es base image:
+
+  `packer build -var 'base_es_ami=<new_image_id>' post-build-es-base.json`
+
+4. Update the cloudformation (config/uat.json) so it uses the base-es image.
+
+5. Run cloudformation create elasticSearch Cluster to build the elasticSearch cluster.
+
+  `aws cloudformation create-stack --stack-name es-uat --parameters file://config/uat.json --template-body "file://es-cluster.json" --capabilities CAPABILITY_IAM`
 
 
-building lxc server:
+Install LXC Cluster
+===================
 
-- building - http://terrarum.net/blog/building-an-lxc-server-1404.html#back_to_zfs
-- snapshotting - https://www.stgraber.org/2013/12/27/lxc-1-0-container-storage/
-- configuring nat - http://wernerstrydom.com/2013/02/23/configure-ubuntu-server-12-04-to-do-nat/
+1. Run `packer build build-base.json` to get a base ami image. (unless one already exists)
+2. Put in the base image id in build-lxc-base.json to build a base-lxc image (for elasticSearch).
+3. Run `packer build build-lxc-base.json` to build the es base image.
+4. Update the cloudformation so it uses the base-lxc image.
+5. Run `./build.sh <ami-id> to create an instance for the cluster.
 
-
-iptables howto:
-
-- deleting rule: `sudo iptables -t nat -D lxc-nat 1`
-- adding rule: `sudo iptables -t nat -A lxc-nat -d 172.31.23.17 -p tcp --dport 40000 -j DNAT --to 10.0.3.95:80`
-- configuring firejail: https://www.digitalocean.com/community/tutorials/how-to-use-firejail-to-set-up-a-wordpress-installation-in-a-jailed-environment
-
-IPTABLES ISSUE:
-
-- https://gist.github.com/developerinlondon/36ecd1cf9be0b994f098
-
-```console
-$ iptables -A POSTROUTING -d 10.0.3.95/32 -p tcp -m tcp --dport 80 -j MASQUERADE -t nat
-$ iptables -A PREROUTING -d 172.31.23.17/32 -p tcp -m tcp --dport 40000 -j DNAT --to-destination 10.0.3.95:80 -t nat
-```
-
-Update rc.d:
-
-http://www.jamescoyle.net/cheat-sheets/791-update-rc-d-cheat-sheet
-
-configuring zfs:
-
-http://terrarum.net/blog/building-an-lxc-server.html#creating_a_base_container
-
-References:
-===========
-- octohost - https://github.com/octohost/octohost

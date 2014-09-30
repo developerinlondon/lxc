@@ -25,8 +25,6 @@ def validate_stack(template)
   sh "aws cloudformation validate-template --template-body #{template}"
 end
 
-
-
 namespace :cluster do
 
   def cluster_params
@@ -54,5 +52,34 @@ namespace :cluster do
   desc 'delete cluster stack'
   task :delete do
     delete_stack ENV['STACK_NAME']
+  end
+
+  namespace :es do
+    def cluster_params
+      @cluster_params ||= {
+        'DnsZone' => ENV['DNS_ZONE'],
+        'VpcId' => ENV['VPC_ID']
+      }
+    end
+
+    desc 'validate cluster template'
+    task :validate => 'common:check_environment' do
+      validate_stack "file://cfn/es-cluster.json"
+    end
+
+    desc 'create cluster stack'
+    task :create do
+      alter_stack 'create-stack', ENV['STACK_NAME'], "file://cfn/es-cluster.json", cluster_params
+    end
+
+    desc 'update cluster stack'
+    task :update do
+      alter_stack 'update-stack', ENV['STACK_NAME'], "file://cfn/es-cluster.json", mesos_params
+    end
+
+    desc 'delete cluster stack'
+    task :delete do
+      delete_stack ENV['STACK_NAME']
+    end
   end
 end
